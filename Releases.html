@@ -1,0 +1,652 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Releases Catalog | Birdbox Entertainment</title>
+    <link rel="icon" type="image/jpeg" href="uploaded:WhatsApp Image 2025-11-04 at 17.21.55_f7d43f98.jpg-b0ee00db-0102-4d78-b851-78204c8e5c63">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brutalist-bg': '#000000',
+                        'brutalist-text': '#FFFFFF',
+                        'brutalist-accent': '#FF4500',
+                        'brutalist-gray': '#1a1a1a',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #000000;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .glitch:hover {
+            animation: glitch 0.3s;
+        }
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            25% { transform: translate(-2px, 2px); }
+            75% { transform: translate(2px, -2px); }
+        }
+
+        .brutalist-hover {
+            transition: all 0.2s ease;
+            border: 2px solid #FFFFFF;
+            position: relative;
+        }
+        .brutalist-hover:hover {
+            color: #000000;
+            background: #FF4500;
+            border-color: #FF4500;
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 #FF4500;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: #FF4500;
+            z-index: 9999;
+            width: 0;
+            transition: width 0.1s linear;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FF4500;
+        }
+
+        .release-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 69, 0, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .release-card:hover .release-overlay {
+            opacity: 1;
+        }
+
+        #backToTop {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        #backToTop.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .mobile-menu-open {
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        .release-card {
+            border: 4px solid #333;
+            background-color: #1a1a1a;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        .release-card:hover {
+            border-color: #FF4500;
+            transform: translate(-3px, -3px);
+            box-shadow: 6px 6px 0 #FF4500;
+        }
+
+        .filter-btn {
+            border: 2px solid #333;
+            background: #1a1a1a;
+            transition: all 0.2s ease;
+        }
+        .filter-btn:hover {
+            border-color: #FF4500;
+            background: #FF4500;
+            color: #000;
+        }
+        .filter-btn.active {
+            border-color: #FF4500;
+            background: #FF4500;
+            color: #000;
+        }
+
+        .year-badge {
+            background: #FF4500;
+            color: #000;
+            font-weight: 900;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body class="bg-brutalist-bg min-h-screen text-brutalist-text font-sans antialiased">
+
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-brutalist-bg border-b-4 border-brutalist-accent">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <a href="c:\Users\PC\Codes\Web.html" class="flex items-center glitch" aria-label="Birdbox Entertainment Home">
+                <img 
+                    src="uploaded:WhatsApp Image 2025-11-04 at 17.21.55_f7d43f98.jpg-b0ee00db-0102-4d78-b851-78204c8e5c63" 
+                    alt="Birdbox Entertainment Logo" 
+                    class="h-10 md:h-12 w-auto object-contain"
+                >
+            </a>
+            
+            <div class="hidden md:block">
+                <h1 class="text-2xl font-black tracking-widest text-brutalist-text uppercase">
+                    BIRDBOX<span class="text-brutalist-accent">.ENTERTAINMENT.</span>
+                </h1>
+            </div>
+
+            <nav class="hidden md:flex space-x-6">
+                <a href="c:\Users\PC\Codes\Web.html" class="text-brutalist-text text-xl font-bold brutalist-hover px-4 py-2 uppercase">Home</a>
+                <a href="" class="text-brutalist-accent text-xl font-bold brutalist-hover px-4 py-2 uppercase">Releases</a>
+                <a href="file:///C:/Users/PC/Codes/Birdbox/Art.html" class="text-brutalist-text text-xl font-bold brutalist-hover px-4 py-2 uppercase">Roster</a>
+                <a href="c:\Users\PC\Codes\Web.html#contact" class="text-brutalist-text text-xl font-bold brutalist-hover px-4 py-2 uppercase">Contact</a>
+            </nav>
+            
+            <button id="mobileMenuBtn" class="md:hidden text-brutalist-accent focus:outline-none">
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                </svg>
+            </button>
+        </div>
+
+        <div id="mobileMenu" class="hidden md:hidden bg-brutalist-bg border-t-2 border-brutalist-accent">
+            <nav class="flex flex-col space-y-2 p-4">
+                <a href="c:\Users\PC\Codes\Web.html" class="text-brutalist-text text-lg font-bold brutalist-hover px-4 py-3 uppercase">Home</a>
+                <a href="" class="text-brutalist-accent text-lg font-bold brutalist-hover px-4 py-3 uppercase">Releases</a>
+                <a href="file:///C:/Users/PC/Codes/Birdbox/Art.html" class="text-brutalist-text text-lg font-bold brutalist-hover px-4 py-3 uppercase">Roster</a>
+                <a href="c:\Users\PC\Codes\Web.html#contact" class="text-brutalist-text text-lg font-bold brutalist-hover px-4 py-3 uppercase">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-20">
+
+        <!-- Page Title -->
+        <section class="pt-16 border-b-4 border-brutalist-accent pb-10">
+            <div class="text-center space-y-4">
+                <h2 class="text-6xl md:text-8xl font-black text-brutalist-text uppercase leading-none">
+                    CATALOG<br>
+                    <span class="text-brutalist-accent">INDEX</span>
+                </h2>
+                <p id="release-count" class="text-gray-400 text-lg uppercase tracking-widest">FULL DISCOGRAPHY / <span id="count-number">0</span> RELEASES</p>
+                <p class="text-gray-500 text-sm max-w-2xl mx-auto leading-relaxed">
+                    Explore our complete archive of industrial, experimental, and electronic releases. From harsh noise to dark ambient, each release represents uncompromising sonic vision.
+                </p>
+            </div>
+        </section>
+
+        <!-- Filters -->
+        <section class="reveal">
+            <div class="flex flex-wrap gap-4 justify-center items-center">
+                <button onclick="filterReleases('all')" class="filter-btn active px-6 py-3 font-black uppercase text-sm" data-filter="all">
+                    ALL RELEASES
+                </button>
+                <button onclick="filterReleases('2025')" class="filter-btn px-6 py-3 font-black uppercase text-sm" data-filter="2025">
+                    2025
+                </button>
+                <button onclick="filterReleases('2024')" class="filter-btn px-6 py-3 font-black uppercase text-sm" data-filter="2024">
+                    2024
+                </button>
+                <button onclick="filterReleases('LP')" class="filter-btn px-6 py-3 font-black uppercase text-sm" data-filter="LP">
+                    ALBUMS
+                </button>
+                <button onclick="filterReleases('EP')" class="filter-btn px-6 py-3 font-black uppercase text-sm" data-filter="EP">
+                    EPS
+                </button>
+                <button onclick="filterReleases('SINGLE')" class="filter-btn px-6 py-3 font-black uppercase text-sm" data-filter="SINGLE">
+                    SINGLES
+                </button>
+            </div>
+        </section>
+
+        <!-- Releases Grid Container -->
+        <section class="reveal">
+            <div id="releases-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+                <!-- Dynamic release cards will be injected here -->
+            </div>
+            
+            <div id="empty-state" class="hidden text-center p-10 mt-10 border-4 border-brutalist-text bg-brutalist-gray">
+                <p class="text-2xl font-black text-brutalist-accent uppercase">NO RESULTS</p>
+                <p class="text-gray-400 mt-2">No releases match your filter. Try selecting a different category.</p>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-6 reveal">
+            <div class="border-4 border-brutalist-text p-6 text-center hover:border-brutalist-accent transition-colors">
+                <div class="text-4xl font-black text-brutalist-accent mb-2" id="stat-total">0</div>
+                <div class="text-xs uppercase tracking-widest text-gray-500">Total Releases</div>
+            </div>
+            <div class="border-4 border-brutalist-text p-6 text-center hover:border-brutalist-accent transition-colors">
+                <div class="text-4xl font-black text-brutalist-accent mb-2" id="stat-albums">0</div>
+                <div class="text-xs uppercase tracking-widest text-gray-500">Albums</div>
+            </div>
+            <div class="border-4 border-brutalist-text p-6 text-center hover:border-brutalist-accent transition-colors">
+                <div class="text-4xl font-black text-brutalist-accent mb-2" id="stat-eps">0</div>
+                <div class="text-xs uppercase tracking-widest text-gray-500">EPs</div>
+            </div>
+            <div class="border-4 border-brutalist-text p-6 text-center hover:border-brutalist-accent transition-colors">
+                <div class="text-4xl font-black text-brutalist-accent mb-2" id="stat-singles">0</div>
+                <div class="text-xs uppercase tracking-widest text-gray-500">Singles</div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="text-center space-y-8 reveal border-4 border-brutalist-accent p-12 bg-brutalist-gray">
+            <h3 class="text-4xl font-black text-brutalist-text uppercase">STREAM EVERYWHERE</h3>
+            <p class="text-gray-400 max-w-2xl mx-auto">
+                All releases are available on major streaming platforms. Support the artists by streaming, purchasing, or attending live performances.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4 pt-4">
+                <a href="https://spotify.com/birdboxent" target="_blank" class="px-6 py-3 border-4 border-brutalist-text bg-brutalist-bg text-brutalist-text font-black uppercase text-sm brutalist-hover">
+                    SPOTIFY
+                </a>
+                <a href="https://music.apple.com" target="_blank" class="px-6 py-3 border-4 border-brutalist-text bg-brutalist-bg text-brutalist-text font-black uppercase text-sm brutalist-hover">
+                    APPLE MUSIC
+                </a>
+                <a href="https://bandcamp.com" target="_blank" class="px-6 py-3 border-4 border-brutalist-text bg-brutalist-bg text-brutalist-text font-black uppercase text-sm brutalist-hover">
+                    BANDCAMP
+                </a>
+                <a href="https://soundcloud.com" target="_blank" class="px-6 py-3 border-4 border-brutalist-text bg-brutalist-bg text-brutalist-text font-black uppercase text-sm brutalist-hover">
+                    SOUNDCLOUD
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brutalist-gray border-t-4 border-brutalist-accent mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 text-center">
+            <div class="text-2xl font-black tracking-widest text-brutalist-text uppercase">
+                BIRDBOX<span class="text-brutalist-accent">.ENTERTAINMENT</span>
+            </div>
+            <p class="text-xs text-gray-500 mt-2 uppercase">INDUSTRIAL SOUND LAB / EST. 2019</p>
+            <div class="mt-6 flex justify-center space-x-6">
+                <a href="c:\Users\PC\Codes\Web.html" class="text-gray-400 hover:text-brutalist-accent text-sm uppercase font-bold">HOME</a>
+                <a href="" class="text-gray-400 hover:text-brutalist-accent text-sm uppercase font-bold">CATALOG</a>
+                <a href="file:///C:/Users/PC/Codes/Birdbox/Art.html" class="text-gray-400 hover:text-brutalist-accent text-sm uppercase font-bold">ROSTER</a>
+                <a href="c:\Users\PC\Codes\Web.html#contact" class="text-gray-400 hover:text-brutalist-accent text-sm uppercase font-bold">CONTACT</a>
+            </div>
+            <p class="text-xs text-gray-700 mt-8">&copy; 2025 BIRDBOX ENTERTAINMENT. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-6 right-6 bg-brutalist-accent text-brutalist-bg p-3 border-4 border-brutalist-accent brutalist-hover z-50">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
+        </svg>
+    </button>
+
+    <script>
+        // Releases Data Array
+        const releases = [
+            {
+                title: "ANOMALY",
+                artist: "Project Neuro",
+                date: "NOV 2025",
+                year: "2025",
+                type: "SINGLE",
+                tracks: 1,
+                image: "https://placehold.co/400x400/FF4500/000000?text=ANOMALY",
+                color: "accent"
+            },
+            {
+                title: "VOID STATE",
+                artist: "Synth Siren",
+                date: "SEP 2025",
+                year: "2025",
+                type: "EP",
+                tracks: 4,
+                image: "https://placehold.co/400x400/FFFFFF/000000?text=VOID+STATE",
+                color: "white"
+            },
+            {
+                title: "PHASE ONE",
+                artist: "Project Neuro",
+                date: "JUL 2025",
+                year: "2025",
+                type: "LP",
+                tracks: 12,
+                image: "https://placehold.co/400x400/FF4500/000000?text=PHASE+ONE",
+                color: "accent"
+            },
+            {
+                title: "SIGNAL LOSS",
+                artist: "Synth Siren",
+                date: "APR 2025",
+                year: "2025",
+                type: "SINGLE",
+                tracks: 1,
+                image: "https://placehold.co/400x400/FFFFFF/000000?text=SIGNAL",
+                color: "white"
+            },
+            {
+                title: "ORIGIN",
+                artist: "Project Neuro",
+                date: "JAN 2025",
+                year: "2025",
+                type: "EP",
+                tracks: 5,
+                image: "https://placehold.co/400x400/FF4500/000000?text=ORIGIN",
+                color: "accent"
+            },
+            {
+                title: "NEON GHOST",
+                artist: "Synth Siren",
+                date: "DEC 2024",
+                year: "2024",
+                type: "LP",
+                tracks: 10,
+                image: "https://placehold.co/400x400/FFFFFF/000000?text=NEON+GHOST",
+                color: "white"
+            },
+            {
+                title: "RUST",
+                artist: "Gridlock",
+                date: "OCT 2024",
+                year: "2024",
+                type: "SINGLE",
+                tracks: 1,
+                image: "https://placehold.co/400x400/1a1a1a/FF4500?text=RUST",
+                color: "gray"
+            },
+            {
+                title: "DECAY CYCLE",
+                artist: "Static Decay",
+                date: "AUG 2024",
+                year: "2024",
+                type: "EP",
+                tracks: 6,
+                image: "https://placehold.co/400x400/000000/666666?text=DECAY",
+                color: "dark"
+            },
+            {
+                title: "MACHINE RITUAL",
+                artist: "Gridlock",
+                date: "JUN 2024",
+                year: "2024",
+                type: "LP",
+                tracks: 11,
+                image: "https://placehold.co/400x400/1a1a1a/FF4500?text=MACHINE",
+                color: "gray"
+            },
+            {
+                title: "FRACTURE",
+                artist: "Project Neuro",
+                date: "MAR 2024",
+                year: "2024",
+                type: "SINGLE",
+                tracks: 1,
+                image: "https://placehold.co/400x400/FF4500/000000?text=FRACTURE",
+                color: "accent"
+            },
+            {
+                title: "VOID SEQUENCE",
+                artist: "Static Decay",
+                date: "FEB 2024",
+                year: "2024",
+                type: "LP",
+                tracks: 8,
+                image: "https://placehold.co/400x400/000000/666666?text=VOID+SEQ",
+                color: "dark"
+            },
+            {
+                title: "STEEL PRAYER",
+                artist: "Gridlock",
+                date: "DEC 2023",
+                year: "2023",
+                type: "EP",
+                tracks: 5,
+                image: "https://placehold.co/400x400/1a1a1a/FF4500?text=STEEL",
+                color: "gray"
+            }
+        ];
+
+        let currentFilter = 'all';
+
+        function renderReleasesGrid(releasesToRender) {
+            const grid = document.getElementById('releases-grid');
+            const emptyState = document.getElementById('empty-state');
+            const countNumber = document.getElementById('count-number');
+            
+            grid.innerHTML = '';
+            countNumber.textContent = releasesToRender.length;
+
+            if (releasesToRender.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            releasesToRender.forEach(release => {
+                const card = document.createElement('div');
+                card.className = 'release-card p-4 group cursor-pointer';
+
+                const borderColor = release.color === 'accent' ? 'border-brutalist-accent' : 'border-brutalist-text';
+
+                card.innerHTML = `
+                    <div class="relative overflow-hidden mb-4">
+                        <img src="${release.image}" 
+                             alt="${release.title} cover art" 
+                             class="w-full aspect-square object-cover border-4 ${borderColor} transition-transform duration-300 group-hover:scale-105"
+                             onerror="this.onerror=null;this.src='https://placehold.co/400x400/cccccc/000000?text=ERROR';"
+                             loading="lazy">
+                        
+                        <div class="release-overlay">
+                            <h4 class="text-brutalist-bg font-black text-lg mb-2 uppercase">${release.title}</h4>
+                            <p class="text-brutalist-bg text-sm mb-3">${release.artist}</p>
+                            <button onclick="showReleaseDetails('${release.title.replace(/'/g, "\\'")}', '${release.artist.replace(/'/g, "\\'")}')" 
+                                    class="px-4 py-2 bg-brutalist-bg text-brutalist-accent font-black border-4 border-brutalist-bg hover:bg-transparent hover:text-brutalist-bg transition-colors uppercase text-xs">
+                                LISTEN NOW
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <p class="text-xs font-semibold text-brutalist-accent uppercase tracking-wider">${release.date}</p>
+                        <h4 class="text-base font-extrabold text-brutalist-text uppercase leading-tight truncate">${release.title}</h4>
+                        <p class="text-xs text-gray-500 font-semibold uppercase truncate">${release.artist}</p>
+                        <div class="flex items-center justify-between">
+                            <p class="text-xs text-gray-600">[${release.type}]</p>
+                            <p class="text-xs text-gray-600">${release.tracks} TRACK${release.tracks > 1 ? 'S' : ''}</p>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            
+            setTimeout(() => {
+                initRevealAnimations();
+            }, 50);
+        }
+
+        function filterReleases(filter) {
+            currentFilter = filter;
+            
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
+
+            // Filter releases
+            let filtered = releases;
+            if (filter !== 'all') {
+                filtered = releases.filter(release => {
+                    return release.year === filter || release.type === filter;
+                });
+            }
+
+            renderReleasesGrid(filtered);
+        }
+
+        function updateStats() {
+            const totalReleases = releases.length;
+            const albums = releases.filter(r => r.type === 'LP').length;
+            const eps = releases.filter(r => r.type === 'EP').length;
+            const singles = releases.filter(r => r.type === 'SINGLE').length;
+
+            document.getElementById('stat-total').textContent = totalReleases;
+            document.getElementById('stat-albums').textContent = albums;
+            document.getElementById('stat-eps').textContent = eps;
+            document.getElementById('stat-singles').textContent = singles;
+        }
+        
+        function showReleaseDetails(releaseTitle, artistName) {
+            const message = document.createElement('div');
+            message.className = 'fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4';
+            message.style.backdropFilter = 'blur(4px)';
+            
+            message.innerHTML = `
+                <div class="bg-brutalist-gray p-8 border-4 border-brutalist-accent max-w-lg w-full transform transition-all duration-300">
+                    <h4 class="text-3xl font-black text-brutalist-accent mb-4 uppercase">STREAMING LINKS</h4>
+                    <p class="text-gray-300 mb-2">
+                        <span class="font-black text-brutalist-text">${releaseTitle}</span>
+                    </p>
+                    <p class="text-gray-400 mb-6 text-sm">by ${artistName}</p>
+                    <p class="text-gray-300 mb-6">
+                        This release is available on all major streaming platforms. Visit your preferred service to listen now.
+                    </p>
+                    <div class="space-y-3">
+                        <a href="https://spotify.com" target="_blank" class="block w-full bg-brutalist-text text-brutalist-bg font-black px-6 py-3 border-4 border-brutalist-text hover:bg-brutalist-bg hover:text-brutalist-text transition-colors uppercase text-center">
+                            OPEN IN SPOTIFY
+                        </a>
+                        <button class="w-full bg-brutalist-accent text-brutalist-bg font-black px-6 py-3 border-4 border-brutalist-accent hover:bg-brutalist-bg hover:text-brutalist-accent transition-colors uppercase"
+                                onclick="this.parentElement.parentElement.parentElement.remove()">
+                            CLOSE
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(message);
+            
+            message.addEventListener('click', function(e) {
+                if (e.target === message) {
+                    message.remove();
+                }
+            });
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            initMobileMenu();
+            initProgressBar();
+            renderReleasesGrid(releases);
+            updateStats();
+            initBackToTop();
+        });
+
+        function initMobileMenu() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            const toggleMenu = () => {
+                const isExpanded = mobileMenu.classList.contains('mobile-menu-open');
+                if (isExpanded) {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.classList.remove('mobile-menu-open');
+                } else {
+                    mobileMenu.classList.remove('hidden');
+                    mobileMenu.classList.add('mobile-menu-open');
+                }
+            };
+
+            mobileMenuBtn.addEventListener('click', toggleMenu);
+            
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', toggleMenu);
+            });
+        }
+
+        function initProgressBar() {
+            const progressBar = document.getElementById('progressBar');
+            if (!progressBar) return;
+            
+            const updateProgress = () => {
+                const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+                if (totalHeight > 0) {
+                    const progress = (window.scrollY / totalHeight) * 100;
+                    progressBar.style.width = `${progress}%`;
+                }
+            };
+
+            window.addEventListener('scroll', updateProgress);
+            window.addEventListener('resize', updateProgress);
+            updateProgress();
+        }
+
+        function initRevealAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting && !entry.target.classList.contains('active')) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, {
+                rootMargin: '0px 0px -50px 0px',
+                threshold: 0.1 
+            });
+
+            document.querySelectorAll('.reveal, .release-card').forEach(element => {
+                observer.observe(element);
+            });
+        }
+
+        function initBackToTop() {
+            const backToTopBtn = document.getElementById('backToTop');
+            if (!backToTopBtn) return;
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+        }

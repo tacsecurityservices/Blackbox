@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birdbox Entertainment | Industrial Sound Lab</title>
+    <!-- ADDED: Favicon link using the uploaded image -->
+    <link rel="icon" type="image/jpeg" href="uploaded:WhatsApp Image 2025-11-04 at 17.21.55_f7d43f98.jpg-b0ee00db-0102-4d78-b851-78204c8e5c63">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brutalist-bg': '#000000',
+                        'brutalist-text': '#FFFFFF',
+                        'brutalist-accent': '#FF4500', /* Orange Red */
+                        'brutalist-gray': '#1a1a1a',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #000000;
+            overflow-x: hidden;
+            /* Ensure smooth scroll for anchor links and back-to-top */
+            scroll-behavior: smooth;
+        }
+
+        /* Glitch effect on header logo hover */
+        .glitch:hover {
+            animation: glitch 0.3s;
+        }
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            25% { transform: translate(-2px, 2px); }
+            75% { transform: translate(2px, -2px); }
+        }
+
+        /* Optimized link hover effects */
+        .brutalist-hover {
+            transition: all 0.2s ease;
+            border: 2px solid #FFFFFF;
+            position: relative;
+        }
+        .brutalist-hover:hover {
+            color: #000000;
+            background: #FF4500;
+            border-color: #FF4500;
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 #FF4500;
+        }
+
+        /* Simplified card animations */
+        .brutalist-card {
+            border: 2px solid #333;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+        .brutalist-card:hover {
+            border-color: #FF4500;
+            transform: translate(-3px, -3px);
+            box-shadow: 5px 5px 0 #FF4500;
+        }
+
+        /* Static pulse effect for hero player */
+        .pulse-border {
+            box-shadow: 0 0 10px #FF4500, 0 0 20px #FF4500;
+        }
+
+        /* Scroll Reveal transition */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Simplified tooltips for platform links */
+        .platform-link {
+            position: relative;
+        }
+        .platform-link::before {
+            content: attr(data-platform);
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #FF4500;
+            color: #000;
+            padding: 4px 8px;
+            font-size: 10px;
+            font-weight: bold;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+        .platform-link:hover::before {
+            opacity: 1;
+        }
+
+        /* Progress bar fixed at top */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: #FF4500;
+            z-index: 9999;
+            width: 0;
+            transition: width 0.1s linear; /* Smoother update */
+        }
+
+        /* Dynamic waveform bars */
+        .waveform-bar {
+            transition: height 0.3s ease;
+        }
+
+        /* Custom scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FF4500;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff6a33;
+        }
+
+        /* Custom Modal positioning and styling */
+        .custom-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 400px;
+            z-index: 10000;
+            display: none;
+        }
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 9999;
+            display: none;
+        }
+
+        /* Mobile menu slide-in animation */
+        .mobile-menu-open {
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        /* Back to top button visibility */
+        #backToTop {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        #backToTop.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body class="bg-brutalist-bg min-h-screen text-brutalist-text font-sans antialiased">
+
+    <!-- Progress bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Modal Backdrop -->
+    <div class="modal-backdrop" id="modalBackdrop" onclick="closeModal()"></div>
+
+    <!-- Status Modal -->
+    <div id="statusModal" class="custom-modal">
+        <div class="bg-brutalist-gray p-6 space-y-4 border-4 border-brutalist-accent">
+            <h3 id="modalTitle" class="text-2xl font-black uppercase text-brutalist-accent">STATUS MESSAGE</h3>
+            <p id="modalMessage" class="text-gray-300"></p>
+            <button onclick="closeModal()" class="w-full px-4 py-3 bg-brutalist-accent text-brutalist-bg font-black text-lg border-2 border-brutalist-accent hover:bg-brutalist-bg hover:text-brutalist-accent transition-colors">
+                CLOSE
+            </button>
+        </div>
+    </div>
+    
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-brutalist-bg border-b-4 border-brutalist-accent">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            
+            <!-- Logo: Replaced H1 with the uploaded Image -->
+            <a href="c:\Users\PC\Codes\Web.html" class="flex items-center glitch" aria-label="Birdbox Entertainment Home">
+                <img 
+                    src="uploaded:WhatsApp Image 2025-11-04 at 17.21.55_f7d43f98.jpg-b0ee00db-0102-4d78-b851-78204c8e5c63" 
+                    alt="Birdbox Entertainment Logo - Owl" 
+                    class="h-10 md:h-12 w-auto object-contain"
+                >
+            </a>
+          
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-left">
+            <h1 class="text-3xl font-black tracking-widest text-brutalist-text uppercase glitch">
+                BIRDBOX<span class="text-brutalist-accent">.ENTERTAINMENT.</span>
+            </h1>
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex space-x-6">
+                <a href="c:\Users\PC\Codes\Web.html" class="text-brutalist-text text-xl font-bold brutalist-hover px-4 py-2 uppercase">Home</a>
+                <a href="c:\Users\PC\Codes\Birdbox\Releases.html" class="text-brutalist-text text-xl font-bold brutalist-hover px-4 py-2 uppercase">Releases</a>
+                <a href="file:///C:/Users/PC/Codes/Birdbox/Art.html" class="text-brutalist-text text-xl font-bold brutalist-hover px-4 py-2 uppercase">Roster</a>
+                <a href="#contact" class="text-brutalist-text text-xl font-bold brutalist-hover px-4 py-2 uppercase">Contact</a>
+            </nav>
+            
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuBtn" class="md:hidden text-brutalist-accent focus:outline-none">
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-brutalist-bg border-t-2 border-brutalist-accent">
+            <nav class="flex flex-col space-y-2 p-4">
+                <a href="c:\Users\PC\Codes\Web.html" class="text-brutalist-text text-lg font-bold brutalist-hover px-4 py-3 uppercase">Home</a>
+                <a href="c:\Users\PC\Codes\Birdbox\Releases.html" class="text-brutalist-text text-lg font-bold brutalist-hover px-4 py-3 uppercase">Releases</a>
+                <a href="file:///C:/Users/PC/Codes/Birdbox/Art.html" class="text-brutalist-text text-lg font-bold brutalist-hover px-4 py-3 uppercase">Roster</a>
+                <a href="#contact" class="text-brutalist-text text-lg font-bold brutalist-hover px-4 py-3 uppercase">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-20">
+
+        <!-- Hero Section -->
+        <section id="home" class="pt-16 md:pt-24 border-b-4 border-brutalist-accent pb-16">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8">
+                    <div class="flex items-center space-x-3">
+                        <!-- Waveform animation container -->
+                        <div class="flex space-x-1 h-8 items-end" id="waveformContainer">
+                            <div class="w-1 bg-brutalist-accent waveform-bar" style="height: 40px;"></div>
+                            <div class="w-1 bg-brutalist-accent waveform-bar" style="height: 60px;"></div>
+                            <div class="w-1 bg-brutalist-accent waveform-bar" style="height: 50px;"></div>
+                            <div class="w-1 bg-brutalist-accent waveform-bar" style="height: 70px;"></div>
+                        </div>
+                        <p class="text-lg text-brutalist-accent font-extrabold tracking-widest uppercase">NEW DROP AVAILABLE NOW</p>
+                    </div>
+                    
+                    <h2 class="text-6xl md:text-8xl font-black leading-none text-brutalist-text">
+                        <span class="block">ANOMALY</span>
+                        <span class="block text-3xl md:text-4xl mt-4 font-light text-gray-500">// BY PROJECT NEURO</span>
+                    </h2>
+                    
+                    <p class="text-gray-300 text-xl max-w-lg font-light leading-relaxed">
+                        A raw, unsynthesized blast of industrial texture. This track serves as a direct transmission from the new wave of noise.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                        <a href="https://mocklink.to/anomaly" target="_blank" class="inline-flex items-center justify-center px-8 py-4 bg-brutalist-accent text-brutalist-bg font-black text-xl border-4 border-brutalist-accent hover:bg-brutalist-bg hover:text-brutalist-accent transition-colors">
+                            <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
+                            </svg>
+                            LISTEN NOW
+                        </a>
+                        <a href="c:\Users\PC\Codes\Birdbox\Releases.html" class="inline-flex items-center justify-center px-8 py-4 bg-brutalist-bg text-brutalist-text font-black text-xl border-4 border-brutalist-text brutalist-hover">
+                            VIEW CATALOG
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Player -->
+                <div class="relative">
+                    <div class="border-4 border-brutalist-accent pulse-border bg-brutalist-gray p-2">
+                        <iframe width="100%" height="400" scrolling="no" frameborder="no" allow="autoplay" loading="lazy"
+                            src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1505335805&color=%23FF4500&auto_play=false&hide_related=false&show_comments=false&show_user=false&show_reposts=false&show_teaser=true&visual=true"
+                            title="SoundCloud Player">
+                        </iframe>
+                    </div>
+                    <div class="absolute -top-3 -left-3 w-6 h-6 border-t-4 border-l-4 border-brutalist-accent"></div>
+                    <div class="absolute -top-3 -right-3 w-6 h-6 border-t-4 border-r-4 border-brutalist-accent"></div>
+                    <div class="absolute -bottom-3 -left-3 w-6 h-6 border-b-4 border-l-4 border-brutalist-accent"></div>
+                    <div class="absolute -bottom-3 -right-3 w-6 h-6 border-b-4 border-r-4 border-brutalist-accent"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats -->
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-6 reveal">
+            <div class="border-4 border-brutalist-text p-6 text-center hover:border-brutalist-accent transition-colors">
+                <div class="text-5xl font-black text-brutalist-accent mb-2">47K+</div>
+                <div class="text-sm uppercase tracking-widest text-gray-500">MONTHLY LISTENERS</div>
+            </div>
+            <div class="border-4 border-brutalist-text p-6 text-center hover:border-brutalist-accent transition-colors">
+                <div class="text-5xl font-black text-brutalist-accent mb-2">23</div>
+                <div class="text-sm uppercase tracking-widest text-gray-500">RELEASES</div>
+            </div>
+            <div class="border-4 border-brutalist-text p-6 text-center hover:border-brutalist-accent transition-colors">
+                <div class="text-5xl font-black text-brutalist-accent mb-2">8</div>
+                <div class="text-sm uppercase tracking-widest text-gray-500">ARTISTS</div>
+            </div>
+            <div class="border-4 border-brutalist-text p-6 text-center hover:border-brutalist-accent transition-colors">
+                <div class="text-5xl font-black text-brutalist-accent mb-2">EST.2019</div>
+                <div class="text-sm uppercase tracking-widest text-gray-500">FOUNDED</div>
+            </div>
+        </section>
+
+        <!-- Platforms -->
+        <section class="text-center space-y-8 reveal">
+            <h3 class="text-4xl font-extrabold text-brutalist-text uppercase tracking-wider">ACCESS POINTS</h3>
+            <p class="text-gray-500 uppercase text-sm tracking-widest">STREAM ON ALL MAJOR PLATFORMS</p>
+            <div class="flex flex-wrap justify-center gap-6 pt-4">
+                <a href="https://spotify.com/birdboxent" target="_blank" data-platform="SPOTIFY" class="platform-link w-24 h-24 brutalist-hover border-4 border-brutalist-text flex items-center justify-center bg-brutalist-bg text-4xl font-black uppercase">SP</a>
+                <a href="https://music.apple.com/us/artist/birdboxent" target="_blank" data-platform="APPLE MUSIC" class="platform-link w-24 h-24 brutalist-hover border-4 border-brutalist-text flex items-center justify-center bg-brutalist-bg text-4xl font-black uppercase">AM</a>
+                <a href="https://youtube.com/user/birdboxent" target="_blank" data-platform="YOUTUBE" class="platform-link w-24 h-24 brutalist-hover border-4 border-brutalist-text flex items-center justify-center bg-brutalist-bg text-4xl font-black uppercase">YT</a>
+                <a href="https://birdboxent.bandcamp.com" target="_blank" data-platform="BANDCAMP" class="platform-link w-24 h-24 brutalist-hover border-4 border-brutalist-text flex items-center justify-center bg-brutalist-bg text-4xl font-black uppercase">BC</a>
+                <a href="https://soundcloud.com/birdboxent" target="_blank" data-platform="SOUNDCLOUD" class="platform-link w-24 h-24 brutalist-hover border-4 border-brutalist-text flex items-center justify-center bg-brutalist-bg text-4xl font-black uppercase">SC</a>
+            </div>
+        </section>
+
+        <!-- Releases -->
+        <section id="releases" class="pt-16 md:pt-24 space-y-10 reveal">
+            <div class="text-center space-y-4 mb-12">
+                <h2 class="text-5xl font-black text-brutalist-text uppercase border-b-4 border-brutalist-text pb-4 inline-block">CATALOG INDEX</h2>
+                <p class="text-gray-500 uppercase text-sm tracking-widest">FULL DISCOGRAPHY</p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                <div class="brutalist-card p-4 bg-brutalist-gray group cursor-pointer">
+                    <div class="relative overflow-hidden">
+                        <img src="https://placehold.co/400x400/FF4500/000000?text=ANOMALY" alt="Anomaly" class="w-full border-4 border-brutalist-accent transition-transform duration-300 group-hover:scale-105" loading="lazy">
+                    </div>
+                    <p class="text-xs font-semibold text-brutalist-accent mt-4 uppercase tracking-wider">NOV 2025</p>
+                    <h4 class="text-lg font-extrabold text-brutalist-text uppercase leading-tight mt-1">ANOMALY</h4>
+                    <p class="text-xs text-gray-500 font-semibold uppercase mt-1">Project Neuro</p>
+                    <p class="text-xs text-gray-600 mt-2">[SINGLE]</p>
+                </div>
+
+                <div class="brutalist-card p-4 bg-brutalist-gray group cursor-pointer">
+                    <div class="relative overflow-hidden">
+                        <img src="https://placehold.co/400x400/FFFFFF/000000?text=VOID" alt="VOID" class="w-full border-4 border-brutalist-text transition-transform duration-300 group-hover:scale-105" loading="lazy">
+                    </div>
+                    <p class="text-xs font-semibold text-brutalist-accent mt-4 uppercase tracking-wider">SEP 2025</p>
+                    <h4 class="text-lg font-extrabold text-brutalist-text uppercase leading-tight mt-1">VOID STATE</h4>
+                    <p class="text-xs text-gray-500 font-semibold uppercase mt-1">Synth Siren</p>
+                    <p class="text-xs text-gray-600 mt-2">[EP - 4 TRACKS]</p>
+                </div>
+
+                <div class="brutalist-card p-4 bg-brutalist-gray group cursor-pointer">
+                    <div class="relative overflow-hidden">
+                        <img src="https://placehold.co/400x400/FF4500/000000?text=PHASE+ONE" alt="Phase One" class="w-full border-4 border-brutalist-accent transition-transform duration-300 group-hover:scale-105" loading="lazy">
+                    </div>
+                    <p class="text-xs font-semibold text-brutalist-accent mt-4 uppercase tracking-wider">JUL 2025</p>
+                    <h4 class="text-lg font-extrabold text-brutalist-text uppercase leading-tight mt-1">PHASE ONE</h4>
+                    <p class="text-xs text-gray-500 font-semibold uppercase mt-1">Project Neuro</p>
+                    <p class="text-xs text-gray-600 mt-2">[LP - 12 TRACKS]</p>
+                </div>
+
+                <div class="brutalist-card p-4 bg-brutalist-gray group cursor-pointer">
+                    <div class="relative overflow-hidden">
+                        <img src="https://placehold.co/400x400/FFFFFF/000000?text=SIGNAL" alt="SIGNAL" class="w-full border-4 border-brutalist-text transition-transform duration-300 group-hover:scale-105" loading="lazy">
+                    </div>
+                    <p class="text-xs font-semibold text-brutalist-accent mt-4 uppercase tracking-wider">APR 2025</p>
+                    <h4 class="text-lg font-extrabold text-brutalist-text uppercase leading-tight mt-1">SIGNAL LOSS</h4>
+                    <p class="text-xs text-gray-500 font-semibold uppercase mt-1">Synth Siren</p>
+                    <p class="text-xs text-gray-600 mt-2">[SINGLE]</p>
+                </div>
+
+                <div class="brutalist-card p-4 bg-brutalist-gray group cursor-pointer">
+                    <div class="relative overflow-hidden">
+                        <img src="https://placehold.co/400x400/FF4500/000000?text=ORIGIN" alt="Origin" class="w-full border-4 border-brutalist-accent transition-transform duration-300 group-hover:scale-105" loading="lazy">
+                    </div>
+                    <p class="text-xs font-semibold text-brutalist-accent mt-4 uppercase tracking-wider">JAN 2025</p>
+                    <h4 class="text-lg font-extrabold text-brutalist-text uppercase leading-tight mt-1">ORIGIN</h4>
+                    <p class="text-xs text-gray-500 font-semibold uppercase mt-1">Project Neuro</p>
+                    <p class="text-xs text-gray-600 mt-2">[EP - 5 TRACKS]</p>
+                </div>
+            </div>
+            
+            <div class="text-center pt-8">
+                <button onclick="showModal('FULL ARCHIVE', 'Contact us for full catalog and physical media.')" class="px-10 py-4 bg-brutalist-bg border-4 border-brutalist-text text-brutalist-text font-black text-lg uppercase brutalist-hover">
+                    VIEW FULL ARCHIVE →
+                </button>
+            </div>
+        </section>
+
+        <!-- Artists -->
+        <section id="artists" class="pt-16 md:pt-24 space-y-10 reveal">
+            <div class="text-center space-y-4 mb-12">
+                <h2 class="text-5xl font-black text-brutalist-text uppercase border-b-4 border-brutalist-text pb-4 inline-block">CURRENT OPERATIVES</h2>
+                <p class="text-gray-500 uppercase text-sm tracking-widest">SIGNED ARTISTS</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="brutalist-card p-8 bg-brutalist-gray flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-6 group">
+                    <div class="relative flex-shrink-0">
+                        <img src="https://placehold.co/150x150/FF4500/000000?text=PN" alt="Project Neuro" class="w-32 h-32 object-cover border-4 border-brutalist-accent" loading="lazy">
+                        <div class="absolute -bottom-2 -right-2 bg-brutalist-accent text-brutalist-bg px-3 py-1 text-xs font-black">ACTIVE</div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-3xl font-black text-brutalist-text uppercase tracking-tight">PROJECT NEURO</h3>
+                        <p class="text-sm text-brutalist-accent font-bold uppercase tracking-wider mt-1">INDUSTRIAL / NOISE</p>
+                        <p class="mt-4 text-gray-300 leading-relaxed">
+                            The sound of digital decay and structural failure. Focused on high-fidelity, high-aggression electronic compositions.
+                        </p>
+                        <div class="mt-6 flex flex-wrap gap-3">
+                            <a href="https://mocklink.to/projectneuro" target="_blank" class="inline-flex items-center text-brutalist-accent font-bold text-sm brutalist-hover px-4 py-2 border-2 border-brutalist-accent">
+                                VIEW PROFILE →
+                            </a>
+                            <span class="text-gray-500 font-bold text-sm border-2 border-gray-700 px-4 py-2">15 RELEASES</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="brutalist-card p-8 bg-brutalist-gray flex flex-col md:flex-row items-start space-y-4 md:space-y-0 md:space-x-6 group">
+                    <div class="relative flex-shrink-0">
+                        <img src="https://placehold.co/150x150/FFFFFF/000000?text=SS" alt="Synth Siren" class="w-32 h-32 object-cover border-4 border-brutalist-text" loading="lazy">
+                        <div class="absolute -bottom-2 -right-2 bg-brutalist-accent text-brutalist-bg px-3 py-1 text-xs font-black">ACTIVE</div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-3xl font-black text-brutalist-text uppercase tracking-tight">SYNTH SIREN</h3>
+                        <p class="text-sm text-brutalist-accent font-bold uppercase tracking-wider mt-1">DARK WAVE / VOCAL TRANCE</p>
+                        <p class="mt-4 text-gray-300 leading-relaxed">
+                            Melodic signal interception. Siren provides deeply atmospheric, retro-futuristic soundscapes with haunting vocal transmissions.
+                        </p>
+                        <div class="mt-6 flex flex-wrap gap-3">
+                            <a href="https://mocklink.to/synthsiren" target="_blank" class="inline-flex items-center text-brutalist-accent font-bold text-sm brutalist-hover px-4 py-2 border-2 border-brutalist-accent">
+                                VIEW PROFILE →
+                            </a>
+                            <span class="text-gray-500 font-bold text-sm border-2 border-gray-700 px-4 py-2">8 RELEASES</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center pt-8">
+                <div class="inline-block border-4 border-brutalist-text p-8 bg-brutalist-gray">
+                    <p class="text-xl font-bold text-brutalist-text uppercase mb-4">EXPLORING NEW TALENT</p>
+                    <p class="text-gray-400 mb-6">We're always looking for experimental artists pushing sonic boundaries</p>
+                    <a href="#contact" class="inline-block px-8 py-3 bg-brutalist-accent text-brutalist-bg font-black text-lg border-4 border-brutalist-accent hover:bg-brutalist-bg hover:text-brutalist-accent transition-colors">
+                        SUBMIT DEMO →
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact" class="pt-16 md:pt-24 space-y-8 reveal">
+            <div class="bg-brutalist-accent p-10 md:p-16 border-8 border-brutalist-text relative">
+                <div class="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-brutalist-bg"></div>
+                <div class="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-brutalist-bg"></div>
+                <div class="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-brutalist-bg"></div>
+                <div class="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-brutalist-bg"></div>
+
+                <h2 class="text-4xl md:text-5xl font-black text-center text-brutalist-bg uppercase mb-4">DEMO SUBMISSION</h2>
+                <p class="text-center text-brutalist-bg font-bold uppercase tracking-wider mb-2">TRANSMISSION PROTOCOL ACTIVE</p>
+                <p class="text-xl text-brutalist-bg text-center max-w-2xl mx-auto font-bold mb-10">
+                    Send us a direct link to your raw data. We accept experimental and challenging electronic subgenres.
+                </p>
+
+                <form class="max-w-2xl mx-auto space-y-6" onsubmit="handleDemo(event)">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- FIX: Completed the input and added required fields -->
+                        <div>
+                            <label class="block text-sm font-extrabold text-brutalist-bg mb-2 uppercase">PROJECT DESIGNATION *</label>
+                            <input type="text" name="name" placeholder="[HANDLE]" required class="w-full p-4 bg-brutalist-bg text-brutalist-accent border-4 border-brutalist-bg focus:border-brutalist-text outline-none font-bold uppercase rounded-none" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-extrabold text-brutalist-bg mb-2 uppercase">CONTACT EMAIL *</label>
+                            <input type="email" name="email" placeholder="[SIGNAL.ACCESS@UNIT.COM]" required class="w-full p-4 bg-brutalist-bg text-brutalist-accent border-4 border-brutalist-bg focus:border-brutalist-text outline-none font-bold uppercase rounded-none" />
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-extrabold text-brutalist-bg mb-2 uppercase">LINK TO WORK (SOUNDCLOUD/BANDCAMP) *</label>
+                        <input type="url" name="link" placeholder="[HTTPS://SOUNDCLOUD.COM/YOUR-PROJECT/TRACK]" required class="w-full p-4 bg-brutalist-bg text-brutalist-accent border-4 border-brutalist-bg focus:border-brutalist-text outline-none font-bold uppercase rounded-none" />
+                    </div>
+                    <div>
+                        <label class="block text-sm font-extrabold text-brutalist-bg mb-2 uppercase">OPTIONAL: NOTES/TRANSMISSION</label>
+                        <textarea name="message" rows="4" placeholder="[ADD BRIEF MANIFESTO HERE]" class="w-full p-4 bg-brutalist-bg text-brutalist-accent border-4 border-brutalist-bg focus:border-brutalist-text outline-none font-bold uppercase rounded-none"></textarea>
+                    </div>
+                    
+                    <div class="pt-4">
+                        <button type="submit" class="w-full px-8 py-4 bg-brutalist-bg text-brutalist-accent font-black text-xl border-4 border-brutalist-bg hover:bg-brutalist-text hover:text-brutalist-bg transition-colors">
+                            INITIATE TRANSMISSION
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brutalist-gray border-t-4 border-brutalist-accent mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 text-center">
+            <div class="text-2xl font-black tracking-widest text-brutalist-text uppercase">
+                BIRDBOX<span class="text-brutalist-accent">.ENTERTAINMENT</span>
+            </div>
+            <p class="text-xs text-gray-500 mt-2 uppercase">INDUSTRIAL SOUND LAB / EST. 2019</p>
+            <div class="mt-6 flex justify-center space-x-6">
+                <a href="c:\Users\PC\Codes\Web.html" class="text-gray-400 hover:text-brutalist-accent text-sm uppercase font-bold">HOME</a>
+                <a href="c:\Users\PC\Codes\Birdbox\Releases.html" class="text-gray-400 hover:text-brutalist-accent text-sm uppercase font-bold">CATALOG</a>
+                <a href="file:///C:/Users/PC/Codes/Birdbox/Art.html" class="text-gray-400 hover:text-brutalist-accent text-sm uppercase font-bold">ROSTER</a>
+                <a href="#contact" class="text-gray-400 hover:text-brutalist-accent text-sm uppercase font-bold">CONTACT</a>
+            </div>
+            <p class="text-xs text-gray-700 mt-8">&copy; 2025 BIRDBOX ENTERTAINMENT. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-6 right-6 bg-brutalist-accent text-brutalist-bg p-3 border-4 border-brutalist-accent brutalist-hover z-50">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
+        </svg>
+    </button>
+
+    <!-- FIX: ADDED MISSING JAVASCRIPT LOGIC -->
+    <script>
+        // --- 1. MODAL HANDLERS ---
+        const statusModal = document.getElementById('statusModal');
+        const modalBackdrop = document.getElementById('modalBackdrop');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+
+        /**
+         * Displays the custom status modal.
+         * @param {string} title The title for the modal.
+         * @param {string} message The body message for the modal.
+         */
+        function showModal(title, message) {
+            modalTitle.textContent = title.toUpperCase();
+            modalMessage.textContent = message;
+            statusModal.style.display = 'block';
+            modalBackdrop.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+        }
+
+        /**
+         * Hides the custom status modal.
+         */
+        function closeModal() {
+            statusModal.style.display = 'none';
+            modalBackdrop.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+
+        // --- 2. FORM HANDLER (Mock Submission) ---
+
+        /**
+         * Handles the demo submission form.
+         * @param {Event} event The form submission event.
+         */
+        function handleDemo(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Simple validation check
+            const form = event.target;
+            if (!form.checkValidity()) {
+                // Let the browser handle standard HTML5 validation messages
+                form.reportValidity(); 
+                return;
+            }
+
+            // Simulate loading state (e.g., disable button)
+            const submitButton = form.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            submitButton.textContent = 'TRANSMITTING...';
+            submitButton.disabled = true;
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            // Simulate a network delay
+            setTimeout(() => {
+                // Simulate success
+                showModal(
+                    'TRANSMISSION ACCEPTED',
+                    `Thank you, ${data.name.toUpperCase()}. Your link has been received and logged in the system. We will contact you at ${data.email} if the signal is compatible with the Birdbox network. [PROCESSING TIMEOUT: 7-14 DAYS]`
+                );
+                form.reset();
+
+                // Restore button state
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+
+            }, 2000); // 2 second delay
+        }
+
+        // --- 3. PAGE INITIALIZATION AND EFFECTS ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initMobileMenu();
+            initProgressBar();
+            initWaveformAnimation();
+            initRevealAnimations();
+            initBackToTop();
+            // Note: initSmoothScrolling is implicitly handled by setting scroll-behavior: smooth in CSS, 
+            // but the browser fallback ensures backToTop works even if CSS property is ignored.
+        });
+
+        /**
+         * Initializes the mobile menu toggle functionality.
+         */
+        function initMobileMenu() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            // Toggle function
+            const toggleMenu = () => {
+                const isExpanded = mobileMenu.classList.contains('mobile-menu-open');
+                if (isExpanded) {
+                    // Close
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.classList.remove('mobile-menu-open');
+                } else {
+                    // Open
+                    mobileMenu.classList.remove('hidden');
+                    mobileMenu.classList.add('mobile-menu-open');
+                }
+            };
+
+            mobileMenuBtn.addEventListener('click', toggleMenu);
+            
+            // Close menu when a link is clicked
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', toggleMenu);
+            });
+        }
+
+        /**
+         * Initializes the progress bar based on scroll position.
+         */
+        function initProgressBar() {
+            const progressBar = document.getElementById('progressBar');
+            if (!progressBar) return;
+            
+            const updateProgress = () => {
+                const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+                if (totalHeight > 0) {
+                    const progress = (window.scrollY / totalHeight) * 100;
+                    progressBar.style.width = `${progress}%`;
+                }
+            };
+
+            window.addEventListener('scroll', updateProgress);
+            window.addEventListener('resize', updateProgress);
+            updateProgress(); // Set initial state
+        }
+
+        /**
+         * Initializes the randomized waveform height animation.
+         */
+        function initWaveformAnimation() {
+            const waveformBars = document.querySelectorAll('.waveform-bar');
+            if (waveformBars.length === 0) return;
+
+            // Generate a random height (20px to 80px)
+            const getRandomHeight = () => Math.floor(Math.random() * 60) + 20;
+
+            setInterval(() => {
+                waveformBars.forEach(bar => {
+                    bar.style.height = `${getRandomHeight()}px`;
+                });
+            }, 300); // Update every 300ms for a choppy, industrial feel
+        }
+
+        /**
+         * Initializes the intersection observer for reveal animations.
+         */
+        function initRevealAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        observer.unobserve(entry.target); // Stop observing once revealed
+                    }
+                });
+            }, {
+                rootMargin: '0px 0px -50px 0px', // Start revealing when 50px from bottom of viewport
+                threshold: 0.1 
+            });
+
+            document.querySelectorAll('.reveal').forEach(element => {
+                observer.observe(element);
+            });
+        }
+
+        /**
+         * Initializes the back-to-top button visibility.
+         */
+        function initBackToTop() {
+            const backToTopBtn = document.getElementById('backToTop');
+            if (!backToTopBtn) return;
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
