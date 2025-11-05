@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Birdbox Entertainment</title>
+    <link rel="icon" type="image/jpeg" href="uploaded:WhatsApp Image 2025-11-04 at 17.21.55_f7d43f98.jpg-b0ee00db-0102-4d78-b851-78204c8e5c63">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brutalist-bg': '#000000',
+                        'brutalist-text': '#FFFFFF',
+                        'brutalist-accent': '#FF4500',
+                        'brutalist-gray': '#1a1a1a',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #000000;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .glitch:hover {
+            animation: glitch 0.3s;
+        }
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            25% { transform: translate(-2px, 2px); }
+            75% { transform: translate(2px, -2px); }
+        }
+
+        .brutalist-hover {
+            transition: all 0.2s ease;
+            border: 2px solid #FFFFFF;
+            position: relative;
+        }
+        .brutalist-hover:hover {
+            color: #000000;
+            background: #FF4500;
+            border-color: #FF4500;
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 #FF4500;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: #FF4500;
+            z-index: 9999;
+            width: 0;
+            transition: width 0.1s linear;
+        }
+
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #FF4500;
+        }
+
+        #backToTop {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        #backToTop.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .mobile-menu-open {
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        .contact-card {
+            border: 4px solid #333;
+            background-color: #1a1a1a;
+            transition: all 0.2s ease;
+        }
+        .contact-card:hover {
+            border-color: #FF4500;
+            transform: translate(-3px, -3px);
+            box-shadow: 6px 6px 0 #FF4500;
+        }
+
+        .social-link {
+            border: 3px solid #333;
+            transition: all 0.2s ease;
+        }
+        .social-link:hover {
+            border-color: #FF4500;
+            background: #FF4500;
+            color: #000;
+            transform: translate(-2px, -2px);
+            box-shadow: 4px 4px 0 #FF4500;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #FF4500 !important;
+        }
+
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 9999;
+            display: none;
+            backdrop-filter: blur(4px);
+        }
+
+        .custom-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 500px;
+            z-index: 10000;
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-brutalist-bg min-h-screen text-brutalist-text font-sans antialiased">
+
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Modal Backdrop -->
+    <div class="modal-backdrop" id="modalBackdrop" onclick="closeModal()"></div>
+
+    <!-- Status Modal -->
+    <div id="statusModal" class="custom-modal">
+        <div class="bg-brutalist-gray p-8 border-4 border-brutalist-accent">
+            <h3 id="modalTitle" class="text-3xl font-black uppercase text-brutalist-accent mb-4">STATUS MESSAGE</h3>
+            <p id="modalMessage" class="text-gray-300 mb-6"></p>
+            <button onclick="closeModal()" class="w-full px-6 py-3 bg-brutalist-accent text-brutalist-bg font-black text-lg border-4 border-brutalist-accent hover:bg-brutalist-bg hover:text-brutalist-accent transition-colors uppercase">
+                CLOSE
+            </button>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-brutalist-bg border-b-4 border-brutalist-accent">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center glitch" aria-label="Birdbox Entertainment Home">
+                <img 
+                    src="uploaded:WhatsApp Image 2025-11-04 at 17.21.55_f7d43f98.jpg-b0ee00db-0102-4d78-b851-78204c8e5c63" 
+                    alt="Birdbox Entertainment Logo" 
+                    class="h-10 md:h-12 w-auto object-contain"
+                >
+            </a>
+            
+            <div class="hidden md:block">
+                <h1 class="text-2xl font-black tracking-widest text-brutalist-text uppercase">
+                    BIRDBOX<span class="text-brutalist-accent">.ENTERTAINMENT.</span>
+                </h1>
+            </div>
+
+            <nav class="hidden md:flex space-x-6">
+                <a href="index.html" class="text-brutalist-text text-xl font-bold brutalist-hover px-4 py-2 uppercase">Home</a>
+                <a href="releases.html" class="text-brutalist-text text-xl font-bold brutalist-hover px-4 py-2 uppercase">Releases</a>
+                <a href="artists.html" class="text-brutalist-text text-xl font-bold brutalist-hover px-4 py-2 uppercase">Roster</a>
+                <a href="contact.html" class="text-brutalist-accent text-xl font-bold brutalist-hover px-4 py-2 uppercase">Contact</a>
+            </nav>
+            
+            <button id="mobileMenuBtn" class="md:hidden text-brutalist-accent focus:outline-none">
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                </svg>
+            </button>
+        </div>
+
+        <div id="mobileMenu" class="hidden md:hidden bg-brutalist-bg border-t-2 border-brutalist-accent">
+            <nav class="flex flex-col space-y-2 p-4">
+                <a href="index.html" class="text-brutalist-text text-lg font-bold brutalist-hover px-4 py-3 uppercase">Home</a>
+                <a href="releases.html" class="text-brutalist-text text-lg font-bold brutalist-hover px-4 py-3 uppercase">Releases</a>
+                <a href="artists.html" class="text-brutalist-text text-lg font-bold brutalist-hover px-4 py-3 uppercase">Roster</a>
+                <a href="contact.html" class="text-brutalist-accent text-lg font-bold brutalist-hover px-4 py-3 uppercase">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-20">
+
+        <!-- Page Title -->
+        <section class="pt-16 border-b-4 border-brutalist-accent pb-10">
+            <div class="text-center space-y-4">
+                <h2 class="text-6xl md:text-8xl font-black text-brutalist-text uppercase leading-none">
+                    ESTABLISH<br>
+                    <span class="text-brutalist-accent">CONTACT</span>
+                </h2>
+                <p class="text-gray-400 text-lg uppercase tracking-widest">TRANSMISSION PROTOCOL ACTIVE</p>
+                <p class="text-gray-500 text-sm max-w-2xl mx-auto leading-relaxed">
+                    Whether you're an artist seeking representation, a label interested in collaboration, or a venue booking talent, we want to hear from you. All transmissions are reviewed within 7-14 business days.
+                </p>
+            </div>
+        </section>
+
+        <!-- Contact Methods Grid -->
+        <section class="grid md:grid-cols-3 gap-8 reveal">
+            <div class="contact-card p-8 text-center">
+                <div class="mb-4">
+                    <svg class="w-16 h-16 mx-auto text-brutalist-accent" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-black text-brutalist-text uppercase mb-3">EMAIL</h3>
+                <p class="text-gray-400 text-sm mb-4">Direct communication channel</p>
+                <a href="mailto:info@birdboxentertainment.com" class="text-brutalist-accent font-bold hover:underline break-all">
+                    info@birdboxentertainment.com
+                </a>
+            </div>
+
+            <div class="contact-card p-8 text-center">
+                <div class="mb-4">
+                    <svg class="w-16 h-16 mx-auto text-brutalist-accent" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-black text-brutalist-text uppercase mb-3">PHONE</h3>
+                <p class="text-gray-400 text-sm mb-4">Booking & inquiries</p>
+                <a href="tel:+27123456789" class="text-brutalist-accent font-bold hover:underline">
+                    +27 12 345 6789
+                </a>
+            </div>
+
+            <div class="contact-card p-8 text-center">
+                <div class="mb-4">
+                    <svg class="w-16 h-16 mx-auto text-brutalist-accent" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-black text-brutalist-text uppercase mb-3">LOCATION</h3>
+                <p class="text-gray-400 text-sm mb-4">Physical headquarters</p>
+                <p class="text-brutalist-accent font-bold">
+                    Pretoria, Gauteng<br>South Africa
+                </p>
+            </div>
+        </section>
+
+        <!-- Demo Submission Form -->
+        <section class="reveal">
+            <div class="bg-brutalist-accent p-8 md:p-12 border-8 border-brutalist-text relative">
+                <div class="absolute top-0 left-0 w-8 h-8 border-t-4 border-l-4 border-brutalist-bg"></div>
+                <div class="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-brutalist-bg"></div>
+                <div class="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-brutalist-bg"></div>
+                <div class="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-brutalist-bg"></div>
+
+                <h2 class="text-4xl md:text-5xl font-black text-center text-brutalist-bg uppercase mb-4">DEMO SUBMISSION</h2>
+                <p class="text-center text-brutalist-bg font-bold uppercase tracking-wider mb-8">ARTIST APPLICATION PORTAL</p>
+
+                <form class="max-w-3xl mx-auto space-y-6" onsubmit="handleDemoSubmission(event)">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-extrabold text-brutalist-bg mb-2 uppercase">Artist/Project Name *</label>
+                            <input type="text" name="name" placeholder="[YOUR HANDLE]" required 
+                                   class="w-full p-4 bg-brutalist-bg text-brutalist-accent border-4 border-brutalist-bg focus:border-brutalist-text font-bold uppercase rounded-none" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-extrabold text-brutalist-bg mb-2 uppercase">Contact Email *</label>
+                            <input type="email" name="email" placeholder="[EMAIL@DOMAIN.COM]" required 
+                                   class="w-full p-4 bg-brutalist-bg text-brutalist-accent border-4 border-brutalist-bg focus:border-brutalist-text font-bold uppercase rounded-none" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-extrabold text-brutalist-bg mb-2 uppercase">Genre/Style *</label>
+                        <select name="genre" required 
+                                class="w-full p-4 bg-brutalist-bg text-brutalist-accent border-4 border-brutalist-bg focus:border-brutalist-text font-bold uppercase rounded-none">
+                            <option value="">-- SELECT GENRE --</option>
+                            <option value="industrial">INDUSTRIAL</option>
+                            <option value="noise">NOISE</option>
+                            <option value="experimental">EXPERIMENTAL</option>
+                            <option value="ebm">EBM / TECHNO</option>
+                            <option value="darkwave">DARK WAVE</option>
+                            <option value="ambient">AMBIENT / DRONE</option>
+                            <option value="other">OTHER</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-extrabold text-brutalist-bg mb-2 uppercase">Link to Work (SoundCloud/Bandcamp/YouTube) *</label>
+                        <input type="url" name="link" placeholder="[HTTPS://SOUNDCLOUD.COM/YOUR-PROJECT]" required 
+                               class="w-full p-4 bg-brutalist-bg text-brutalist-accent border-4 border-brutalist-bg focus:border-brutalist-text font-bold uppercase rounded-none" />
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-extrabold text-brutalist-bg mb-2 uppercase">Message / Bio (Optional)</label>
+                        <textarea name="message" rows="5" placeholder="[TELL US ABOUT YOUR PROJECT AND ARTISTIC VISION]" 
+                                  class="w-full p-4 bg-brutalist-bg text-brutalist-accent border-4 border-brutalist-bg focus:border-brutalist-text font-bold uppercase rounded-none"></textarea>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" 
+                                class="w-full px-8 py-4 bg-brutalist-bg text-brutalist-accent font-black text-xl border-4 border-brutalist-bg hover:bg-brutalist-text hover:text-brutalist-accent transition-colors uppercase">
+                            INITIATE TRANSMISSION
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- General Contact Form -->
+        <section class="reveal">
+            <div class="border-4 border-brutalist-text bg-brutalist-gray p-8 md:p-12">
+                <h2 class="text-4xl font-black text-center text-brutalist-text uppercase mb-4">GENERAL INQUIRY</h2>
+                <p class="text-center text-gray-400 mb-8 uppercase text-sm tracking-wider">Booking / Press / Licensing / Collaboration</p>
+
+                <form class="max-w-3xl mx-auto space-y-6" onsubmit="handleGeneralInquiry(event)">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-extrabold text-brutalist-text mb-2 uppercase">Your Name *</label>
+                            <input type="text" name="name" placeholder="[NAME]" required 
+                                   class="w-full p-4 bg-brutalist-bg text-brutalist-text border-4 border-brutalist-text focus:border-brutalist-accent font-bold uppercase rounded-none" />
+                        </div>
+                        <div>
+                            <label class="block text-sm font-extrabold text-brutalist-text mb-2 uppercase">Email *</label>
+                            <input type="email" name="email" placeholder="[EMAIL]" required 
+                                   class="w-full p-4 bg-brutalist-bg text-brutalist-text border-4 border-brutalist-text focus:border-brutalist-accent font-bold uppercase rounded-none" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-extrabold text-brutalist-text mb-2 uppercase">Subject *</label>
+                        <select name="subject" required 
+                                class="w-full p-4 bg-brutalist-bg text-brutalist-text border-4 border-brutalist-text focus:border-brutalist-accent font-bold uppercase rounded-none">
+                            <option value="">-- SELECT SUBJECT --</option>
+                            <option value="booking">BOOKING REQUEST</option>
+                            <option value="press">PRESS INQUIRY</option>
+                            <option value="licensing">LICENSING / SYNC</option>
+                            <option value="collaboration">COLLABORATION</option>
+                            <option value="distribution">DISTRIBUTION</option>
+                            <option value="other">OTHER</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-extrabold text-brutalist-text mb-2 uppercase">Message *</label>
+                        <textarea name="message" rows="6" placeholder="[YOUR MESSAGE HERE]" required 
+                                  class="w-full p-4 bg-brutalist-bg text-brutalist-text border-4 border-brutalist-text focus:border-brutalist-accent font-bold uppercase rounded-none"></textarea>
+                    </div>
+
+                    <div class="pt-4">
+                        <button type="submit" 
+                                class="w-full px-8 py-4 bg-brutalist-accent text-brutalist-bg font-black text-xl border-4 border-brutalist-accent hover:bg-brutalist-bg hover:text-brutalist-accent transition-colors uppercase">
+                            SEND MESSAGE
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Social Links -->
+        <section class="text-center space-y-8 reveal">
+            <h3 class="text-4xl font-black text-brutalist-text uppercase">CONNECT WITH US</h3>
+            <p class="text-gray-400 uppercase text-sm tracking-widest">FOLLOW OUR TRANSMISSIONS</p>
+            <div class="flex flex-wrap justify-center gap-4 pt-4">
+                <a href="https://spotify.com" target="_blank" class="social-link w-20 h-20 flex items-center justify-center bg-brutalist-bg text-brutalist-text font-black text-2xl">
+                    SP
+                </a>
+                <a href="https://soundcloud.com" target="_blank" class="social-link w-20 h-20 flex items-center justify-center bg-brutalist-bg text-brutalist-text font-black text-2xl">
+                    SC
+                </a>
+                <a href="https://bandcamp.com" target="_blank" class="social-link w-20 h-20 flex items-center justify-center bg-brutalist-bg text-brutalist-text font-black text-2xl">
+                    BC
+                </a>
+                <a href="https://instagram.com" target="_blank" class="social-link w-20 h-20 flex items-center justify-center bg-brutalist-bg text-brutalist-text font-black text-2xl">
+                    IG
+                </a>
+                <a href="https://youtube.com" target="_blank" class="social-link w-20 h-20 flex items-center justify-center bg-brutalist-bg text-brutalist-text font-black text-2xl">
+                    YT
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-brutalist-gray border-t-4 border-brutalist-accent mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 text-center">
+            <div class="text-2xl font-black tracking-widest text-brutalist-text uppercase">
+                BIRDBOX<span class="text-brutalist-accent">.ENTERTAINMENT</span>
+            </div>
+            <p class="text-xs text-gray-500 mt-2 uppercase">INDUSTRIAL SOUND LAB / EST. 2019</p>
+            <div class="mt-6 flex justify-center space-x-6">
+                <a href="index.html" class="text-gray-400 hover:text-brutalist-accent text-sm uppercase font-bold">HOME</a>
+                <a href="releases.html" class="text-gray-400 hover:text-brutalist-accent text-sm uppercase font-bold">CATALOG</a>
+                <a href="artists.html" class="text-gray-400 hover:text-brutalist-accent text-sm uppercase font-bold">ROSTER</a>
+                <a href="contact.html" class="text-gray-400 hover:text-brutalist-accent text-sm uppercase font-bold">CONTACT</a>
+            </div>
+            <p class="text-xs text-gray-700 mt-8">&copy; 2025 BIRDBOX ENTERTAINMENT. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-6 right-6 bg-brutalist-accent text-brutalist-bg p-3 border-4 border-brutalist-accent brutalist-hover z-50">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
+        </svg>
+    </button>
+
+    <script>
+        function showModal(title, message) {
+            const modalTitle = document.getElementById('modalTitle');
+            const modalMessage = document.getElementById('modalMessage');
+            const statusModal = document.getElementById('statusModal');
+            const modalBackdrop = document.getElementById('modalBackdrop');
+            
+            modalTitle.textContent = title.toUpperCase();
+            modalMessage.textContent = message;
+            statusModal.style.display = 'block';
+            modalBackdrop.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const statusModal = document.getElementById('statusModal');
+            const modalBackdrop = document.getElementById('modalBackdrop');
+            
+            statusModal.style.display = 'none';
+            modalBackdrop.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        function handleDemoSubmission(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const submitButton = form.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            submitButton.textContent = 'TRANSMITTING...';
+            submitButton.disabled = true;
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            setTimeout(() => {
+                showModal(
+                    'TRANSMISSION ACCEPTED',
+                    `Thank you, ${data.name.toUpperCase()}. Your demo submission has been received and logged in our system. We review all submissions carefully and will contact you at ${data.email} if your work aligns with the Birdbox vision. [PROCESSING TIMEOUT: 7-14 DAYS]`
+                );
+                form.reset();
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            }, 2000);
+        }
+
+        function handleGeneralInquiry(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const submitButton = form.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            submitButton.textContent = 'SENDING...';
+            submitButton.disabled = true;
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            setTimeout(() => {
+                showModal(
+                    'MESSAGE RECEIVED',
+                    `Thank you for your inquiry, ${data.name.toUpperCase()}. Your message regarding "${data.subject}" has been successfully transmitted to our team. We will respond to ${data.email} within 48-72 hours. [ACKNOWLEDGMENT CODE: ${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}]`
+                );
+                form.reset();
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            }, 2000);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initMobileMenu();
+            initProgressBar();
+            initRevealAnimations();
+            initBackToTop();
+        });
+
+        function initMobileMenu() {
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            const toggleMenu = () => {
+                const isExpanded = mobileMenu.classList.contains('mobile-menu-open');
+                if (isExpanded) {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.classList.remove('mobile-menu-open');
+                } else {
+                    mobileMenu.classList.remove('hidden');
+                    mobileMenu.classList.add('mobile-menu-open');
+                }
+            };
+
+            mobileMenuBtn.addEventListener('click', toggleMenu);
+            
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', toggleMenu);
+            });
+        }
+
+        function initProgressBar() {
+            const progressBar = document.getElementById('progressBar');
+            if (!progressBar) return;
+            
+            const updateProgress = () => {
+                const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+                if (totalHeight > 0) {
+                    const progress = (window.scrollY / totalHeight) * 100;
+                    progressBar.style.width = `${progress}%`;
+                }
+            };
+
+            window.addEventListener('scroll', updateProgress);
+            window.addEventListener('resize', updateProgress);
+            updateProgress();
+        }
+
+        // Function added to resolve ReferenceError
+        function initRevealAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    // Only observe elements that haven't been made active yet
+                    if (entry.isIntersecting && !entry.target.classList.contains('active')) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, {
+                rootMargin: '0px 0px -50px 0px',
+                threshold: 0.1 
+            });
+
+            document.querySelectorAll('.reveal').forEach(element => {
+                observer.observe(element);
+            });
+        }
+        
+        // Function completed to resolve truncation/definition order issues
+        function initBackToTop() {
+            const backToTopBtn = document.getElementById('backToTop');
+            if (!backToTopBtn) return;
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    backToTopBtn.classList.add('visible');
+                } else {
+                    backToTopBtn.classList.remove('visible');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
