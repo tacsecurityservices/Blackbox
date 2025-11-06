@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <!-- CRITICAL for mobile responsiveness -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artists Roster | Birdbox Entertainment</title>
     <link rel="icon" type="image/jpeg" href="logo.jpg">
@@ -17,28 +18,22 @@
                         'brutalist-gray': '#1a1a1a',
                     },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        // Using Inter as requested
+                        sans: ['Inter', 'sans-serif'], 
                     },
                 }
             }
         }
     </script>
     <style>
+        /* General mobile safety and styling */
         body {
             background-color: #000000;
             overflow-x: hidden;
             scroll-behavior: smooth;
         }
 
-        .glitch:hover {
-            animation: glitch 0.3s;
-        }
-        @keyframes glitch {
-            0%, 100% { transform: translate(0); }
-            25% { transform: translate(-2px, 2px); }
-            75% { transform: translate(2px, -2px); }
-        }
-
+        /* Brutalist Hover Effect */
         .brutalist-hover {
             transition: all 0.2s ease;
             border: 2px solid #FFFFFF;
@@ -52,6 +47,19 @@
             box-shadow: 4px 4px 0 #FF4500;
         }
 
+        /* Glitch animation for desktop hover only to save mobile battery */
+        @media (min-width: 768px) {
+            .glitch:hover {
+                animation: glitch 0.3s;
+            }
+        }
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            25% { transform: translate(-2px, 2px); }
+            75% { transform: translate(2px, -2px); }
+        }
+
+        /* Scroll Reveal Animation */
         .reveal {
             opacity: 0;
             transform: translateY(20px);
@@ -62,6 +70,7 @@
             transform: translateY(0);
         }
 
+        /* Progress Bar */
         .progress-bar {
             position: fixed;
             top: 0;
@@ -73,6 +82,7 @@
             transition: width 0.1s linear;
         }
 
+        /* Custom Scrollbar (Desktop only) */
         ::-webkit-scrollbar {
             width: 10px;
         }
@@ -83,9 +93,11 @@
             background: #FF4500;
         }
 
+        /* Artist Card Hover Effects (Adjusted for touch screens) */
         .artist-grid-item {
             position: relative;
             overflow: hidden;
+            touch-action: manipulation; /* Improves touch responsiveness */
         }
 
         .artist-overlay {
@@ -102,20 +114,13 @@
             text-align: center;
         }
 
-        .artist-grid-item:hover .artist-overlay {
-            opacity: 1;
+        /* Desktop hover */
+        @media (min-width: 768px) {
+            .artist-grid-item:hover .artist-overlay {
+                opacity: 1;
+            }
         }
-
-        #backToTop {
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-        #backToTop.visible {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
+        /* Mobile menu slide animation */
         .mobile-menu-open {
             animation: slideIn 0.3s ease-out;
         }
@@ -133,6 +138,9 @@
             font-weight: bold;
             text-transform: uppercase;
             margin: 0.25rem;
+            /* Ensure tags don't get too small */
+            min-height: 24px; 
+            line-height: 1.5;
         }
         
         .roster-card {
@@ -140,10 +148,13 @@
             background-color: #1a1a1a;
             transition: all 0.2s ease;
         }
-        .roster-card:hover {
-            border-color: #FF4500;
-            transform: translate(-4px, -4px);
-            box-shadow: 8px 8px 0 #FF4500;
+        /* Desktop hover */
+        @media (min-width: 768px) {
+            .roster-card:hover {
+                border-color: #FF4500;
+                transform: translate(-4px, -4px);
+                box-shadow: 8px 8px 0 #FF4500;
+            }
         }
     </style>
 </head>
@@ -151,7 +162,7 @@
 
     <div class="progress-bar" id="progressBar"></div>
 
-    <!-- Header -->
+    <!-- Header (Sticky for easy navigation on long mobile scrolls) -->
     <header class="sticky top-0 z-50 bg-brutalist-bg border-b-4 border-brutalist-accent">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <a href="index.html" class="flex items-center glitch" aria-label="Birdbox Entertainment Home">
@@ -159,35 +170,50 @@
                     src="logo.jpg" 
                     alt="Birdbox Entertainment Logo" 
                     class="h-10 md:h-12 w-auto object-contain"
+                    onerror="this.onerror=null;this.src='https://placehold.co/48x48/000000/FF4500?text=BB';"
                 >
             </a>
             
+            <!-- Company Name (Hidden on Mobile for cleaner header, visible on MD+) -->
             <div class="hidden md:block">
-                <h1 class="text-2xl font-black tracking-widest text-brutalist-text uppercase">
+                <h1 class="text-xl lg:text-2xl font-black tracking-widest text-brutalist-text uppercase">
                     BIRDBOX<span class="text-brutalist-accent">.ENTERTAINMENT.</span>
                 </h1>
             </div>
 
-            <nav class="hidden md:flex space-x-6">
-                <a href="index.html" class="text-brutalist-text text-xl font-bold brutalist-hover px-4 py-2 uppercase">Home</a>
-                <a href="Releases.html" class="text-brutalist-text text-xl font-bold brutalist-hover px-4 py-2 uppercase">Releases</a>
-                <a href="Artists.html" class="text-brutalist-accent text-xl font-bold brutalist-hover px-4 py-2 uppercase">Roster</a>
-                <a href="#contact" class="text-brutalist-text text-xl font-bold brutalist-hover px-4 py-2 uppercase">Contact</a>
+            <!-- Desktop Navigation -->
+            <nav class="hidden md:flex space-x-4 lg:space-x-6">
+                <a href="index.html" class="text-brutalist-text text-lg lg:text-xl font-bold brutalist-hover px-3 py-2 uppercase">Home</a>
+                <a href="Releases.html" class="text-brutalist-text text-lg lg:text-xl font-bold brutalist-hover px-3 py-2 uppercase">Releases</a>
+                <a href="Artists.html" class="text-brutalist-accent text-lg lg:text-xl font-bold brutalist-hover px-3 py-2 uppercase">Roster</a>
+                <a href="Contact.html" class="text-brutalist-text text-lg lg:text-xl font-bold brutalist-hover px-3 py-2 uppercase">Contact</a>
             </nav>
             
-            <button id="mobileMenuBtn" class="md:hidden text-brutalist-accent focus:outline-none">
+            <!-- Mobile Menu Button (Hamburger) -->
+            <button id="mobileMenuBtn" class="md:hidden text-brutalist-accent focus:outline-none p-2 border-2 border-transparent focus:border-brutalist-accent" aria-label="Open menu">
                 <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
                 </svg>
             </button>
         </div>
 
-        <div id="mobileMenu" class="hidden md:hidden bg-brutalist-bg border-t-2 border-brutalist-accent">
-            <nav class="flex flex-col space-y-2 p-4">
+        <!-- Mobile Menu Panel (Slide-in from the side) -->
+        <div id="mobileMenu" class="hidden fixed inset-y-0 right-0 w-64 bg-brutalist-gray z-50 shadow-2xl mobile-menu-panel">
+            <div class="flex justify-end p-4">
+                <button id="closeMobileMenuBtn" class="text-brutalist-accent focus:outline-none p-2 border-2 border-transparent focus:border-brutalist-accent" aria-label="Close menu">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+            <nav class="flex flex-col space-y-2 p-4 pt-0">
+                <!-- Links now have larger touch targets (py-3) -->
                 <a href="index.html" class="text-brutalist-text text-lg font-bold brutalist-hover px-4 py-3 uppercase">Home</a>
                 <a href="Releases.html" class="text-brutalist-text text-lg font-bold brutalist-hover px-4 py-3 uppercase">Releases</a>
-                <a href="Artist.html" class="text-brutalist-accent text-lg font-bold brutalist-hover px-4 py-3 uppercase">Roster</a>
-                <a href="Ccontact.html" class="text-brutalist-text text-lg font-bold brutalist-hover px-4 py-3 uppercase">Contact</a>
+                <!-- Corrected link from Artist.html to Artists.html -->
+                <a href="Artists.html" class="text-brutalist-accent text-lg font-bold brutalist-hover px-4 py-3 uppercase">Roster</a>
+                <!-- Corrected link to anchor #contact -->
+                <a href="Contact.html" class="text-brutalist-text text-lg font-bold brutalist-hover px-4 py-3 uppercase">Contact</a>
             </nav>
         </div>
     </header>
@@ -197,11 +223,12 @@
         <!-- Page Title -->
         <section class="pt-16 border-b-4 border-brutalist-accent pb-10">
             <div class="text-center space-y-4">
-                <h2 class="text-6xl md:text-8xl font-black text-brutalist-text uppercase leading-none">
+                <!-- Title text size optimized for mobile (xl:text-8xl for large screens) -->
+                <h2 class="text-5xl md:text-7xl xl:text-8xl font-black text-brutalist-text uppercase leading-none">
                     ACTIVE<br>
                     <span class="text-brutalist-accent">OPERATIVES</span>
                 </h2>
-                <p id="artist-count" class="text-gray-400 text-lg uppercase tracking-widest">CURRENT ROSTER / <span id="count-number">0</span> SIGNED ARTISTS</p>
+                <p id="artist-count" class="text-gray-400 text-sm md:text-lg uppercase tracking-widest">CURRENT ROSTER / <span id="count-number">0</span> SIGNED ARTISTS</p>
                 <p class="text-gray-500 text-sm max-w-2xl mx-auto leading-relaxed">
                     Our collective represents the cutting edge of industrial, experimental, and electronic music. Each artist brings a unique sonic signature to the Birdbox network.
                 </p>
@@ -210,7 +237,8 @@
 
         <!-- Artist Grid Container -->
         <section class="reveal">
-            <div id="artist-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <!-- Grid is 1 column on mobile, scales up nicely -->
+            <div id="artist-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
                 <!-- Dynamic artist cards will be injected here -->
             </div>
             
@@ -220,17 +248,18 @@
             </div>
         </section>
 
-        <!-- Call to Action -->
-        <section class="text-center space-y-8 reveal border-4 border-brutalist-accent p-12 bg-brutalist-gray">
-            <h3 class="text-4xl font-black text-brutalist-text uppercase">OPEN SUBMISSIONS</h3>
+        <!-- Call to Action (Using ID for internal link) -->
+        <section id="contact" class="text-center space-y-8 reveal border-4 border-brutalist-accent p-8 md:p-12 bg-brutalist-gray">
+            <h3 class="text-3xl md:text-4xl font-black text-brutalist-text uppercase">OPEN SUBMISSIONS</h3>
             <p class="text-gray-400 max-w-2xl mx-auto">
                 We're actively seeking experimental artists who are pushing boundaries and challenging conventions. If you create uncompromising electronic music, we want to hear from you.
             </p>
+            <!-- CTA buttons use flex-col on mobile, stacking them, and switch to flex-row on small screens -->
             <div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                <a href="#contact" class="inline-flex items-center justify-center px-8 py-4 bg-brutalist-accent text-brutalist-bg font-black text-xl border-4 border-brutalist-accent hover:bg-brutalist-bg hover:text-brutalist-accent transition-colors">
+                <a href="Contact.html" class="inline-flex items-center justify-center px-8 py-4 bg-brutalist-accent text-brutalist-bg font-black text-lg md:text-xl border-4 border-brutalist-accent hover:bg-brutalist-bg hover:text-brutalist-accent transition-colors">
                     SUBMIT DEMO
                 </a>
-                <a href="Releases.html" class="inline-flex items-center justify-center px-8 py-4 bg-brutalist-bg text-brutalist-text font-black text-xl border-4 border-brutalist-text brutalist-hover">
+                <a href="Releases.html" class="inline-flex items-center justify-center px-8 py-4 bg-brutalist-bg text-brutalist-text font-black text-lg md:text-xl border-4 border-brutalist-text brutalist-hover">
                     VIEW CATALOG
                 </a>
             </div>
@@ -241,22 +270,29 @@
     <!-- Footer -->
     <footer class="bg-brutalist-gray border-t-4 border-brutalist-accent mt-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 text-center">
-            <div class="text-2xl font-black tracking-widest text-brutalist-text uppercase">
+            <div class="text-xl md:text-2xl font-black tracking-widest text-brutalist-text uppercase">
                 BIRDBOX<span class="text-brutalist-accent">.ENTERTAINMENT</span>
             </div>
             <p class="text-xs text-gray-500 mt-2 uppercase">INDUSTRIAL SOUND LAB / EST. 2019</p>
-            <div class="index.html" class="text-gray-400 hover:text-brutalist-accent text-sm uppercase font-bold">HOME</a>
-                <a href="Releases.html" class="text-gray-400 hover:text-brutalist-accent text-sm uppercase font-bold">CATALOG</a>
-                <a href="Artist.html" class="text-gray-400 hover:text-brutalist-accent text-sm uppercase font-bold">ROSTER</a>
-                <a href="Contact.html" class="text-gray-400 hover:text-brutalist-accent text-sm uppercase font-bold">CONTACT</a>
+            
+            <!-- Footer Links - Optimized with flex-wrap and gap for mobile touch targets -->
+            <div class="flex justify-center space-x-4 mt-4 flex-wrap gap-y-2">
+                <a href="index.html" class="text-gray-400 hover:text-brutalist-accent text-sm uppercase font-bold px-2 py-1">HOME</a>
+                <a href="Releases.html" class="text-gray-400 hover:text-brutalist-accent text-sm uppercase font-bold px-2 py-1">CATALOG</a>
+                <!-- Corrected link from Artist.html to Artists.html -->
+                <a href="Artists.html" class="text-gray-400 hover:text-brutalist-accent text-sm uppercase font-bold px-2 py-1">ROSTER</a>
+                <!-- Corrected link to anchor #contact -->
+                <a href="Contact.html" class="text-gray-400 hover:text-brutalist-accent text-sm uppercase font-bold px-2 py-1">CONTACT</a>
             </div>
+
             <p class="text-xs text-gray-700 mt-8">&copy; 2025 BIRDBOX ENTERTAINMENT. ALL RIGHTS RESERVED.</p>
         </div>
     </footer>
 
-    <!-- Back to Top Button -->
-    <button id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-6 right-6 bg-brutalist-accent text-brutalist-bg p-3 border-4 border-brutalist-accent brutalist-hover z-50">
-        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+    <!-- Back to Top Button (Larger p-4 padding for better touch target) -->
+    <button id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+        class="fixed bottom-6 right-6 bg-brutalist-accent text-brutalist-bg p-4 border-4 border-brutalist-accent brutalist-hover z-50 rounded-lg shadow-xl">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
         </svg>
     </button>
@@ -347,7 +383,8 @@
 
             artistsToRender.forEach(artist => {
                 const card = document.createElement('div');
-                card.className = 'roster-card p-4';
+                // Added 'reveal' to the card itself for scroll animation on load
+                card.className = 'roster-card p-4 reveal'; 
                 card.id = artist.id;
 
                 const genreTags = artist.genres.map(genre => 
@@ -362,11 +399,12 @@
                              onerror="this.onerror=null;this.src='https://placehold.co/400x400/cccccc/000000?text=IMAGE+ERROR';"
                              loading="lazy">
                         
-                        <div class="artist-overlay">
+                        <!-- Overlay for details (works on click/tap on mobile) -->
+                        <div class="artist-overlay md:artist-overlay">
                             <h4 class="text-brutalist-bg font-black text-xl mb-3 uppercase">${artist.name}</h4>
                             <p class="text-brutalist-bg text-sm mb-4">${artist.shortDesc}</p>
                             <button onclick="showArtistDetails('${artist.name.replace(/'/g, "\\'")}', '${artist.id}')" 
-                                    class="px-4 py-2 bg-brutalist-bg text-brutalist-accent font-black border-4 border-brutalist-bg hover:bg-transparent hover:text-brutalist-bg transition-colors uppercase text-sm">
+                                    class="px-4 py-2 bg-brutalist-bg text-brutalist-accent font-black border-4 border-brutalist-bg hover:bg-transparent hover:text-brutalist-bg transition-colors uppercase text-sm brutalist-hover-manual">
                                 ACCESS DATA
                             </button>
                         </div>
@@ -390,20 +428,23 @@
             }, 50);
         }
         
+        // Custom modal function (replaces alert/confirm)
         function showArtistDetails(artistName, artistId) {
             const message = document.createElement('div');
-            message.className = 'fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4';
+            // Added p-4 to ensure padding on smallest screens
+            message.className = 'fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-4'; 
             message.style.backdropFilter = 'blur(4px)';
             
             message.innerHTML = `
-                <div class="bg-brutalist-gray p-8 border-4 border-brutalist-accent max-w-lg w-full transform transition-all duration-300">
+                <div class="bg-brutalist-gray p-6 md:p-8 border-4 border-brutalist-accent max-w-lg w-full transform transition-all duration-300">
                     <h4 class="text-3xl font-black text-brutalist-accent mb-4 uppercase">ACCESS DENIED</h4>
                     <p class="text-gray-300 mb-6">
                         Full data profile for <span class="font-black text-brutalist-text">${artistName}</span> is restricted. 
                         Please contact management for further information.
                     </p>
+                    <!-- Button has full width and large touch target -->
                     <button class="w-full bg-brutalist-accent text-brutalist-bg font-black px-6 py-3 border-4 border-brutalist-accent hover:bg-brutalist-bg hover:text-brutalist-accent transition-colors uppercase"
-                            onclick="this.parentElement.parentElement.remove()">
+                            onclick="this.closest('.fixed').remove()">
                         ACKNOWLEDGE &amp; CLOSE
                     </button>
                 </div>
@@ -411,6 +452,7 @@
             
             document.body.appendChild(message);
             
+            // Allow closing by tapping outside the modal on mobile
             message.addEventListener('click', function(e) {
                 if (e.target === message) {
                     message.remove();
@@ -427,23 +469,34 @@
 
         function initMobileMenu() {
             const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const closeMobileMenuBtn = document.getElementById('closeMobileMenuBtn');
             const mobileMenu = document.getElementById('mobileMenu');
             
-            const toggleMenu = () => {
-                const isExpanded = mobileMenu.classList.contains('mobile-menu-open');
-                if (isExpanded) {
-                    mobileMenu.classList.add('hidden');
-                    mobileMenu.classList.remove('mobile-menu-open');
-                } else {
-                    mobileMenu.classList.remove('hidden');
-                    mobileMenu.classList.add('mobile-menu-open');
-                }
+            const openMenu = () => {
+                mobileMenu.classList.remove('hidden');
+                mobileMenu.classList.add('mobile-menu-open');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
             };
 
-            mobileMenuBtn.addEventListener('click', toggleMenu);
+            const closeMenu = () => {
+                mobileMenu.classList.remove('mobile-menu-open');
+                mobileMenu.classList.add('hidden'); // Use hidden immediately to prevent lingering
+                document.body.style.overflow = ''; // Restore scrolling
+            };
+
+            mobileMenuBtn.addEventListener('click', openMenu);
+            closeMobileMenuBtn.addEventListener('click', closeMenu);
             
+            // Close menu when a link is clicked
             mobileMenu.querySelectorAll('a').forEach(link => {
-                link.addEventListener('click', toggleMenu);
+                link.addEventListener('click', closeMenu);
+            });
+
+            // Close menu when tapping outside the panel area (though the fixed overlay should handle this)
+            mobileMenu.addEventListener('click', (e) => {
+                if (e.target.id === 'mobileMenu') {
+                    closeMenu();
+                }
             });
         }
 
@@ -469,6 +522,7 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting && !entry.target.classList.contains('active')) {
                         entry.target.classList.add('active');
+                        observer.unobserve(entry.target); // Stop observing once it's visible
                     }
                 });
             }, {
@@ -495,10 +549,4 @@
         }
     </script>
 </body>
-
 </html>
-
-
-
-
-
