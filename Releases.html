@@ -1,11 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Releases Catalog | Birdbox Entertainment</title>
-    <link rel="icon" type="image/jpeg" href="logo.jpg">
+    <!-- Placeholder image for the logo - replace 'logo.jpg' with the actual path -->
+    <link rel="icon" type="image/png" href="https://placehold.co/32x32/FF4500/000000?text=B">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -31,15 +31,7 @@
             scroll-behavior: smooth;
         }
 
-        .glitch:hover {
-            animation: glitch 0.3s;
-        }
-        @keyframes glitch {
-            0%, 100% { transform: translate(0); }
-            25% { transform: translate(-2px, 2px); }
-            75% { transform: translate(2px, -2px); }
-        }
-
+        /* Brutalist Hover Effect for Nav/Buttons */
         .brutalist-hover {
             transition: all 0.2s ease;
             border: 2px solid #FFFFFF;
@@ -52,74 +44,18 @@
             transform: translate(-2px, -2px);
             box-shadow: 4px 4px 0 #FF4500;
         }
-
-        .reveal {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
+        
+        /* Glitch Effect for Logo/Text */
+        .glitch:hover {
+            animation: glitch 0.3s;
         }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .progress-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 3px;
-            background: #FF4500;
-            z-index: 9999;
-            width: 0;
-            transition: width 0.1s linear;
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            25% { transform: translate(-2px, 2px); }
+            75% { transform: translate(2px, -2px); }
         }
 
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #000;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #FF4500;
-        }
-
-        .release-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(255, 69, 0, 0.95);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .release-card:hover .release-overlay {
-            opacity: 1;
-        }
-
-        #backToTop {
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
-        #backToTop.visible {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .mobile-menu-open {
-            animation: slideIn 0.3s ease-out;
-        }
-        @keyframes slideIn {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
-        }
-
+        /* Release Card Hover Effect */
         .release-card {
             border: 4px solid #333;
             background-color: #1a1a1a;
@@ -132,52 +68,108 @@
             box-shadow: 6px 6px 0 #FF4500;
         }
 
+        /* Release Overlay */
+        .release-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 69, 0, 0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            padding: 1.5rem;
+            text-align: center;
+            /* Added pointer events none to ensure hover works on container, not just overlay itself */
+            pointer-events: none; 
+        }
+
+        .release-card:hover .release-overlay {
+            opacity: 1;
+            pointer-events: auto; /* Re-enable pointer events for the internal button on hover */
+        }
+        
+        /* Filter Buttons */
         .filter-btn {
             border: 2px solid #333;
             background: #1a1a1a;
             transition: all 0.2s ease;
         }
-        .filter-btn:hover {
+        .filter-btn:hover, .filter-btn.active {
             border-color: #FF4500;
             background: #FF4500;
             color: #000;
         }
-        .filter-btn.active {
-            border-color: #FF4500;
+        
+        /* Scroll Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
             background: #FF4500;
-            color: #000;
+            z-index: 9999;
+            width: 0;
+            transition: width 0.1s linear;
         }
 
-        .year-badge {
-            background: #FF4500;
-            color: #000;
-            font-weight: 900;
-            padding: 0.25rem 0.75rem;
-            font-size: 0.75rem;
+        /* Back to Top Button */
+        #backToTop {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
+        #backToTop.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Mobile Menu Animation */
+        .mobile-menu-open {
+            animation: slideIn 0.3s ease-out;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Custom Scrollbar for Desktop Aesthetics */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #FF4500; }
     </style>
 </head>
 <body class="bg-brutalist-bg min-h-screen text-brutalist-text font-sans antialiased">
 
     <div class="progress-bar" id="progressBar"></div>
 
-    <!-- Header -->
+    <!-- Header (Sticky for mobile usability) -->
     <header class="sticky top-0 z-50 bg-brutalist-bg border-b-4 border-brutalist-accent">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            
+            <!-- Logo Area (Left) -->
             <a href="index.html" class="flex items-center glitch" aria-label="Birdbox Entertainment Home">
+                <!-- Fallback for logo.jpg -->
                 <img 
                     src="logo.jpg" 
                     alt="Birdbox Entertainment Logo" 
                     class="h-10 md:h-12 w-auto object-contain"
+                    onerror="this.onerror=null;this.src='https://placehold.co/40x40/FF4500/000000?text=B';this.alt='Birdbox Logo Placeholder';"
                 >
             </a>
             
-            <div class="hidden md:block">
-                <h1 class="text-2xl font-black tracking-widest text-brutalist-text uppercase">
-                    BIRDBOX<span class="text-brutalist-accent">.ENTERTAINMENT.</span>
+            <!-- Company Title (Center - Responsive for mobile branding) -->
+            <div class="text-center">
+                <h1 class="text-xl md:text-2xl font-black tracking-widest text-brutalist-text uppercase leading-none">
+                    <!-- Mobile abbreviated version -->
+                    <span class="md:hidden">BIRD<span class="text-brutalist-accent">.E.</span></span>
+                    <!-- Desktop full version -->
+                    <span class="hidden md:inline">BIRDBOX<span class="text-brutalist-accent">.ENTERTAINMENT.</span></span>
                 </h1>
             </div>
 
+            <!-- Desktop Nav (Right) -->
             <nav class="hidden md:flex space-x-6">
                 <a href="index.html" class="text-brutalist-text text-xl font-bold brutalist-hover px-4 py-2 uppercase">Home</a>
                 <a href="Releases.html" class="text-brutalist-accent text-xl font-bold brutalist-hover px-4 py-2 uppercase">Releases</a>
@@ -185,13 +177,15 @@
                 <a href="#contact" class="text-brutalist-text text-xl font-bold brutalist-hover px-4 py-2 uppercase">Contact</a>
             </nav>
             
-            <button id="mobileMenuBtn" class="md:hidden text-brutalist-accent focus:outline-none">
+            <!-- Mobile Menu Button (Right) -->
+            <button id="mobileMenuBtn" class="md:hidden text-brutalist-accent focus:outline-none p-1">
                 <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
                 </svg>
             </button>
         </div>
 
+        <!-- Mobile Menu Dropdown -->
         <div id="mobileMenu" class="hidden md:hidden bg-brutalist-bg border-t-2 border-brutalist-accent">
             <nav class="flex flex-col space-y-2 p-4">
                 <a href="index.html" class="text-brutalist-text text-lg font-bold brutalist-hover px-4 py-3 uppercase">Home</a>
@@ -218,31 +212,31 @@
             </div>
         </section>
 
-        <!-- Filters -->
+        <!-- Filters (Mobile-friendly flex-wrap ensures stacking) -->
         <section class="reveal">
-            <div class="flex flex-wrap gap-4 justify-center items-center">
-                <button onclick="filterReleases('all')" class="filter-btn active px-6 py-3 font-black uppercase text-sm" data-filter="all">
+            <div class="flex flex-wrap gap-3 md:gap-4 justify-center items-center">
+                <button onclick="filterReleases('all')" class="filter-btn active px-4 py-2 md:px-6 md:py-3 font-black uppercase text-xs md:text-sm" data-filter="all">
                     ALL RELEASES
                 </button>
-                <button onclick="filterReleases('2025')" class="filter-btn px-6 py-3 font-black uppercase text-sm" data-filter="2025">
+                <button onclick="filterReleases('2025')" class="filter-btn px-4 py-2 md:px-6 md:py-3 font-black uppercase text-xs md:text-sm" data-filter="2025">
                     2025
                 </button>
-                <button onclick="filterReleases('2024')" class="filter-btn px-6 py-3 font-black uppercase text-sm" data-filter="2024">
+                <button onclick="filterReleases('2024')" class="filter-btn px-4 py-2 md:px-6 md:py-3 font-black uppercase text-xs md:text-sm" data-filter="2024">
                     2024
                 </button>
-                <button onclick="filterReleases('LP')" class="filter-btn px-6 py-3 font-black uppercase text-sm" data-filter="LP">
+                <button onclick="filterReleases('LP')" class="filter-btn px-4 py-2 md:px-6 md:py-3 font-black uppercase text-xs md:text-sm" data-filter="LP">
                     ALBUMS
                 </button>
-                <button onclick="filterReleases('EP')" class="filter-btn px-6 py-3 font-black uppercase text-sm" data-filter="EP">
+                <button onclick="filterReleases('EP')" class="filter-btn px-4 py-2 md:px-6 md:py-3 font-black uppercase text-xs md:text-sm" data-filter="EP">
                     EPS
                 </button>
-                <button onclick="filterReleases('SINGLE')" class="filter-btn px-6 py-3 font-black uppercase text-sm" data-filter="SINGLE">
+                <button onclick="filterReleases('SINGLE')" class="filter-btn px-4 py-2 md:px-6 md:py-3 font-black uppercase text-xs md:text-sm" data-filter="SINGLE">
                     SINGLES
                 </button>
             </div>
         </section>
 
-        <!-- Releases Grid Container -->
+        <!-- Releases Grid Container (Uses grid-cols-2 on mobile) -->
         <section class="reveal">
             <div id="releases-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                 <!-- Dynamic release cards will be injected here -->
@@ -254,43 +248,43 @@
             </div>
         </section>
 
-        <!-- Stats Section -->
-        <section class="grid grid-cols-2 md:grid-cols-4 gap-6 reveal">
+        <!-- Stats Section (Uses grid-cols-2 on mobile) -->
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 reveal">
             <div class="border-4 border-brutalist-text p-6 text-center hover:border-brutalist-accent transition-colors">
-                <div class="text-4xl font-black text-brutalist-accent mb-2" id="stat-total">0</div>
+                <div class="text-3xl md:text-4xl font-black text-brutalist-accent mb-2" id="stat-total">0</div>
                 <div class="text-xs uppercase tracking-widest text-gray-500">Total Releases</div>
             </div>
             <div class="border-4 border-brutalist-text p-6 text-center hover:border-brutalist-accent transition-colors">
-                <div class="text-4xl font-black text-brutalist-accent mb-2" id="stat-albums">0</div>
+                <div class="text-3xl md:text-4xl font-black text-brutalist-accent mb-2" id="stat-albums">0</div>
                 <div class="text-xs uppercase tracking-widest text-gray-500">Albums</div>
             </div>
             <div class="border-4 border-brutalist-text p-6 text-center hover:border-brutalist-accent transition-colors">
-                <div class="text-4xl font-black text-brutalist-accent mb-2" id="stat-eps">0</div>
+                <div class="text-3xl md:text-4xl font-black text-brutalist-accent mb-2" id="stat-eps">0</div>
                 <div class="text-xs uppercase tracking-widest text-gray-500">EPs</div>
             </div>
             <div class="border-4 border-brutalist-text p-6 text-center hover:border-brutalist-accent transition-colors">
-                <div class="text-4xl font-black text-brutalist-accent mb-2" id="stat-singles">0</div>
+                <div class="text-3xl md:text-4xl font-black text-brutalist-accent mb-2" id="stat-singles">0</div>
                 <div class="text-xs uppercase tracking-widest text-gray-500">Singles</div>
             </div>
         </section>
 
-        <!-- Call to Action -->
-        <section class="text-center space-y-8 reveal border-4 border-brutalist-accent p-12 bg-brutalist-gray">
-            <h3 class="text-4xl font-black text-brutalist-text uppercase">STREAM EVERYWHERE</h3>
-            <p class="text-gray-400 max-w-2xl mx-auto">
+        <!-- Call to Action (Buttons use flex-wrap to stack on mobile) -->
+        <section class="text-center space-y-6 md:space-y-8 reveal border-4 border-brutalist-accent p-8 md:p-12 bg-brutalist-gray">
+            <h3 class="text-3xl md:text-4xl font-black text-brutalist-text uppercase">STREAM EVERYWHERE</h3>
+            <p class="text-gray-400 max-w-2xl mx-auto text-sm md:text-base">
                 All releases are available on major streaming platforms. Support the artists by streaming, purchasing, or attending live performances.
             </p>
-            <div class="flex flex-wrap justify-center gap-4 pt-4">
-                <a href="https://spotify.com/birdboxent" target="_blank" class="px-6 py-3 border-4 border-brutalist-text bg-brutalist-bg text-brutalist-text font-black uppercase text-sm brutalist-hover">
+            <div class="flex flex-wrap justify-center gap-3 md:gap-4 pt-4">
+                <a href="https://spotify.com/birdboxent" target="_blank" class="flex-grow md:flex-grow-0 px-4 py-3 border-4 border-brutalist-text bg-brutalist-bg text-brutalist-text font-black uppercase text-xs md:text-sm brutalist-hover">
                     SPOTIFY
                 </a>
-                <a href="https://music.apple.com" target="_blank" class="px-6 py-3 border-4 border-brutalist-text bg-brutalist-bg text-brutalist-text font-black uppercase text-sm brutalist-hover">
+                <a href="https://music.apple.com" target="_blank" class="flex-grow md:flex-grow-0 px-4 py-3 border-4 border-brutalist-text bg-brutalist-bg text-brutalist-text font-black uppercase text-xs md:text-sm brutalist-hover">
                     APPLE MUSIC
                 </a>
-                <a href="https://bandcamp.com" target="_blank" class="px-6 py-3 border-4 border-brutalist-text bg-brutalist-bg text-brutalist-text font-black uppercase text-sm brutalist-hover">
+                <a href="https://bandcamp.com" target="_blank" class="flex-grow md:flex-grow-0 px-4 py-3 border-4 border-brutalist-text bg-brutalist-bg text-brutalist-text font-black uppercase text-xs md:text-sm brutalist-hover">
                     BANDCAMP
                 </a>
-                <a href="https://soundcloud.com" target="_blank" class="px-6 py-3 border-4 border-brutalist-text bg-brutalist-bg text-brutalist-text font-black uppercase text-sm brutalist-hover">
+                <a href="https://soundcloud.com" target="_blank" class="flex-grow md:flex-grow-0 px-4 py-3 border-4 border-brutalist-text bg-brutalist-bg text-brutalist-text font-black uppercase text-xs md:text-sm brutalist-hover">
                     SOUNDCLOUD
                 </a>
             </div>
@@ -299,8 +293,8 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-brutalist-gray border-t-4 border-brutalist-accent mt-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 text-center">
+    <footer class="bg-brutalist-gray border-t-4 border-brutalist-accent mt-12 md:mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-10 text-center">
             <div class="text-2xl font-black tracking-widest text-brutalist-text uppercase">
                 BIRDBOX<span class="text-brutalist-accent">.ENTERTAINMENT</span>
             </div>
@@ -315,7 +309,7 @@
         </div>
     </footer>
 
-    <!-- Back to Top Button -->
+    <!-- Back to Top Button (Fixed for mobile scrolling) -->
     <button id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="fixed bottom-6 right-6 bg-brutalist-accent text-brutalist-bg p-3 border-4 border-brutalist-accent brutalist-hover z-50">
         <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
@@ -466,7 +460,7 @@
 
             releasesToRender.forEach(release => {
                 const card = document.createElement('div');
-                card.className = 'release-card p-4 group cursor-pointer';
+                card.className = 'release-card p-4 group cursor-pointer reveal'; // Added reveal class
 
                 const borderColor = release.color === 'accent' ? 'border-brutalist-accent' : 'border-brutalist-text';
 
@@ -478,11 +472,12 @@
                              onerror="this.onerror=null;this.src='https://placehold.co/400x400/cccccc/000000?text=ERROR';"
                              loading="lazy">
                         
+                        <!-- INCREASED PY-3 FOR BETTER TOUCH TARGET -->
                         <div class="release-overlay">
-                            <h4 class="text-brutalist-bg font-black text-lg mb-2 uppercase">${release.title}</h4>
-                            <p class="text-brutalist-bg text-sm mb-3">${release.artist}</p>
+                            <h4 class="text-brutalist-bg font-black text-xl mb-2 uppercase">${release.title}</h4>
+                            <p class="text-brutalist-bg text-sm mb-4">${release.artist}</p>
                             <button onclick="showReleaseDetails('${release.title.replace(/'/g, "\\'")}', '${release.artist.replace(/'/g, "\\'")}')" 
-                                    class="px-4 py-2 bg-brutalist-bg text-brutalist-accent font-black border-4 border-brutalist-bg hover:bg-transparent hover:text-brutalist-bg transition-colors uppercase text-xs">
+                                    class="px-4 py-3 bg-brutalist-bg text-brutalist-accent font-black border-4 border-brutalist-bg hover:bg-transparent hover:text-brutalist-bg transition-colors uppercase text-xs">
                                 LISTEN NOW
                             </button>
                         </div>
@@ -501,6 +496,7 @@
                 grid.appendChild(card);
             });
             
+            // Re-initialize reveal animations for new elements
             setTimeout(() => {
                 initRevealAnimations();
             }, 50);
@@ -513,7 +509,10 @@
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-            document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
+            const activeButton = document.querySelector(`[data-filter="${filter}"]`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
 
             // Filter releases
             let filtered = releases;
@@ -544,20 +543,21 @@
             message.style.backdropFilter = 'blur(4px)';
             
             message.innerHTML = `
-                <div class="bg-brutalist-gray p-8 border-4 border-brutalist-accent max-w-lg w-full transform transition-all duration-300">
-                    <h4 class="text-3xl font-black text-brutalist-accent mb-4 uppercase">STREAMING LINKS</h4>
+                <div class="bg-brutalist-gray p-6 md:p-8 border-4 border-brutalist-accent max-w-sm sm:max-w-lg w-full transform transition-all duration-300">
+                    <h4 class="text-xl md:text-3xl font-black text-brutalist-accent mb-4 uppercase">STREAMING LINKS</h4>
                     <p class="text-gray-300 mb-2">
-                        <span class="font-black text-brutalist-text">${releaseTitle}</span>
+                        <span class="font-black text-brutalist-text text-lg">${releaseTitle}</span>
                     </p>
                     <p class="text-gray-400 mb-6 text-sm">by ${artistName}</p>
-                    <p class="text-gray-300 mb-6">
+                    <p class="text-gray-300 mb-6 text-sm">
                         This release is available on all major streaming platforms. Visit your preferred service to listen now.
                     </p>
                     <div class="space-y-3">
-                        <a href="https://spotify.com" target="_blank" class="block w-full bg-brutalist-text text-brutalist-bg font-black px-6 py-3 border-4 border-brutalist-text hover:bg-brutalist-bg hover:text-brutalist-text transition-colors uppercase text-center">
+                        <a href="https://spotify.com" target="_blank" class="block w-full bg-brutalist-text text-brutalist-bg font-black px-6 py-3 border-4 border-brutalist-text hover:bg-brutalist-bg hover:text-brutalist-text transition-colors uppercase text-center text-sm">
                             OPEN IN SPOTIFY
                         </a>
-                        <button class="w-full bg-brutalist-accent text-brutalist-bg font-black px-6 py-3 border-4 border-brutalist-accent hover:bg-brutalist-bg hover:text-brutalist-accent transition-colors uppercase"
+                        <!-- Added py-3 for better mobile touch target -->
+                        <button class="w-full bg-brutalist-accent text-brutalist-bg font-black px-6 py-3 border-4 border-brutalist-accent hover:bg-brutalist-bg hover:text-brutalist-accent transition-colors uppercase text-sm"
                                 onclick="this.parentElement.parentElement.parentElement.remove()">
                             CLOSE
                         </button>
@@ -567,6 +567,7 @@
             
             document.body.appendChild(message);
             
+            // Allow clicking outside the modal to close it
             message.addEventListener('click', function(e) {
                 if (e.target === message) {
                     message.remove();
@@ -577,9 +578,12 @@
         document.addEventListener('DOMContentLoaded', () => {
             initMobileMenu();
             initProgressBar();
+            // Sort releases by date descending before rendering
+            releases.sort((a, b) => new Date(b.date.replace(' ', ' 1, ')) - new Date(a.date.replace(' ', ' 1, ')));
             renderReleasesGrid(releases);
             updateStats();
             initBackToTop();
+            initRevealAnimations(); // Initial call for content already in viewport
         });
 
         function initMobileMenu() {
@@ -589,9 +593,13 @@
             const toggleMenu = () => {
                 const isExpanded = mobileMenu.classList.contains('mobile-menu-open');
                 if (isExpanded) {
-                    mobileMenu.classList.add('hidden');
+                    // Hide sequence
                     mobileMenu.classList.remove('mobile-menu-open');
+                    setTimeout(() => {
+                        mobileMenu.classList.add('hidden');
+                    }, 300); // Match animation duration
                 } else {
+                    // Show sequence
                     mobileMenu.classList.remove('hidden');
                     mobileMenu.classList.add('mobile-menu-open');
                 }
@@ -599,6 +607,7 @@
 
             mobileMenuBtn.addEventListener('click', toggleMenu);
             
+            // Close menu when a link is clicked
             mobileMenu.querySelectorAll('a').forEach(link => {
                 link.addEventListener('click', toggleMenu);
             });
@@ -622,10 +631,17 @@
         }
 
         function initRevealAnimations() {
+            // Unobserve and reobserve elements if called multiple times (e.g., after filter)
+            if (window.intersectionObserver) {
+                window.intersectionObserver.disconnect();
+            }
+
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
+                    // Only apply 'active' once to prevent re-triggering animations on scroll back up
                     if (entry.isIntersecting && !entry.target.classList.contains('active')) {
                         entry.target.classList.add('active');
+                        // No need to unobserve since the observer is disconnected and re-created if filtering happens
                     }
                 });
             }, {
@@ -633,9 +649,11 @@
                 threshold: 0.1 
             });
 
-            document.querySelectorAll('.reveal, .release-card').forEach(element => {
+            document.querySelectorAll('.reveal').forEach(element => {
                 observer.observe(element);
             });
+            
+            window.intersectionObserver = observer;
         }
 
         function initBackToTop() {
@@ -651,4 +669,6 @@
             });
 
         }
-
+    </script>
+</body>
+</html>
